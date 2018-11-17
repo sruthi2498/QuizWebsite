@@ -1,17 +1,22 @@
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="css/home.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="/css/home.css">
+		<link rel="stylesheet" type="text/css" href="/css/join.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<script src="js/home.js">
-		</script>
-
+		<script src="/js/home.js"></script>
 	</head>
-	<body>
-		<input type="button" value= "Start Quiz" id="startQuizButton">
-		<input type="button" value= "Join Quiz" id="joinQuizButton">
+	<body style="margin-left:43%; margin-top:17%;">
+		<button class="button" id="startQuizButton"><span>Start Quiz</span></button>
+		<br></br>
+		<button class="button" id="joinQuizButton"><span>Join Quiz</span></button>
+		
+		<div style="display:none;" class="container" id="joinQuizContainer">
+			<input type="text" id="joinQuizKey" placeholder="Enter code" name="code" required>
 
-		<input type="hidden" placeholder="Enter key" id="joinQuizKey">
-		<input type="hidden" value="Go" id="joinQuizGo">
-		<div id="invalidJoin"> The key was invalid. Try again</div>
+		  	<button id="joinQuizGo" type="submit" class="registerbtn">Submit</button>
+
+		  	<div id="invalidJoin">Invalid ID. Try again</div>
+		</div>
 	</body>
 </html>

@@ -1,14 +1,14 @@
 $(document).ready(function(){
 	$("#startQuizButton").click(function(){
 		console.log("Start a new quiz");
+		$("#joinQuizContainer").css("display","none");
 		/* go to second page*/
 		
 	});
 
 	$("#joinQuizButton").click(function(){
 		console.log("Join a new quiz");
-		$("#joinQuizKey").prop('type', 'text');
-		$("#joinQuizGo").prop('type', 'button');
+		$("#joinQuizContainer").css("display","block");
 		
 	});
 
@@ -31,19 +31,18 @@ $(document).ready(function(){
 var obj={
 	xhr:new XMLHttpRequest(),
 	SendKeyToServer:function(key){
-		//console.log("sending request");
+		console.log("sending request key =",key);
 		this.xhr.onreadystatechange=this.GetResponse;
-		this.xhr.open("GET","php/home.php?key="+key);
-		this.xhr.send();
+		this.xhr.open("POST","http://localhost:3000/joinquizkey");
+		this.xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		this.xhr.send("key="+key);
 	},
 	GetResponse:function(){
-		//console.log("got response");
 		if(this.readyState==4 && this.status==200){
-			var res=this.responseText; 
-			var resJson=JSON.parse(res);
-			if(resJson.valid==1){
-				console.log("Valid key");
-				$("body").load("sink.html")
+			var res=this.responseText;
+			console.log("Response : ",res); 
+			if(res=="Valid"){
+				console.log("Going to sink page");
 			}
 			else{
 				console.log("Invalid key");
@@ -52,6 +51,8 @@ var obj={
 				// make input blank again
 				$("#joinQuizKey").prop("value","");
 			}
+			
+			
 		}
 	}
 }
