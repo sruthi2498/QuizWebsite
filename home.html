@@ -11,12 +11,14 @@
 		<br></br>
 		<button class="button" id="joinQuizButton"><span>Join Quiz</span></button>
 		
-		<div style="display:none;" class="container" id="joinQuizContainer">
-			<input type="text" id="joinQuizKey" placeholder="Enter code" name="code" required>
+		<form id="joinForm" method="POST" action="http://localhost:3000/joinquiz">
+			<div style="display:none;" class="container" id="joinQuizContainer">
+				<input type="text" id="joinQuizKey" placeholder="Enter code" name="code" required>
 
-		  	<button id="joinQuizGo" type="submit" class="registerbtn">Submit</button>
+			  	<button id="joinQuizGo" type="submit" class="registerbtn">Submit</button>
 
-		  	<div id="invalidJoin">Invalid ID. Try again</div>
-		</div>
+			  	<div id="invalidJoin">Invalid ID. Try again</div>
+			</div>
+		</form>
 	</body>
 </html>

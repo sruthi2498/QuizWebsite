@@ -18,9 +18,13 @@ app.get('/home', function(req, res){
 app.post('/joinquizkey', function(req, res) {
 	if(req.body==null)console.log("req.body is null");
 	console.log("joinquizkey : ",req.body.key);
-	if(vk.checkValidKey(req.body.key)) res.send("Valid");
-	else res.send("Invaid");
+	if(vk.checkValidKey(req.body.key))res.send("Valid");
+	else res.send("Invalid");
 
+});
+
+app.post('/joinquiz', function(req, res){
+   res.sendFile('sink.html', { root: path.join(__dirname, '../') });
 });
 
 console.log("server running at localhost:3000");
