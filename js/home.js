@@ -21,14 +21,14 @@ $(document).ready(function(){
 		/* send request to server *
 		Validate key 
 		get response*/
-		obj.SendKeyToServer(key);
+		joinQuiz.SendKeyToServer(key);
 
 
 
 	});
 });
 
-var obj={
+var joinQuiz={
 	xhr:new XMLHttpRequest(),
 	SendKeyToServer:function(key){
 		console.log("sending request key =",key);
@@ -43,6 +43,7 @@ var obj={
 			console.log("Response : ",res); 
 			if(res=="Valid"){
 				console.log("Going to sink page");
+				$("#joinForm").submit();
 			}
 			else{
 				console.log("Invalid key");
@@ -56,4 +57,6 @@ var obj={
 		}
 	}
 }
+
+
 
