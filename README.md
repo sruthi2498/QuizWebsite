@@ -23,5 +23,6 @@ From project root :
 ## HTML files :
 
     home.html --> localhost:3000/home
+    quizpage2.html --> localhost:3000/quizPage
     choose_quiz.html --> localhost:3000/chooseQuiz
     end_quiz.html --> localhost:3000/endQuiz
