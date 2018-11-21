@@ -9,6 +9,12 @@
 
 ## Running
 
+Creating a database :
+
+    $ node node/db/node_cratedb.js
+    $ node node/db/node_quiztable.js
+
+
 From project root :
 
     $ nodemon node/node_server.js
