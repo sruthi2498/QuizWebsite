@@ -4,8 +4,8 @@
 
 1) Node
 2) nodemon : npm install -g nodemon
-3) Express for node
-4) Socket.io for node
+3) Express for node : npm install express --save
+4) Socket.io for node : npm install socket.io --save
 
 ## Running
 
