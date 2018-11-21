@@ -1,13 +1,14 @@
 var fs = require('fs');
-var http=require("http");
+
 var path = require('path');
 var express=require("express");
 var app = express();
+var http=require("http").Server(app);
 var bodyParser = require('body-parser');
 var vk=require("./valid_key");
 var qh=require("./quiz_handler");
 var db=require("./db/node_db_main");
-var io = require('socket.io');
+var io_home = require('socket.io')(http);
 
 app.use(bodyParser.urlencoded({ extended: true })); 
 
@@ -112,6 +113,27 @@ app.get('/getQuestion', function(req, res) {
 	}
 });
 
+//Whenever someone connects this gets executed
+io_home.on('connection', function(socket) {
+   console.log('A user connected');
 
-console.log("server running at localhost:3000 ....");
-app.listen(3000);
+   //Send a message after a timeout of 2seconds
+   setTimeout(function() {
+     socket.emit('testerEvent', { description: 'A custom event named testerEvent!'});
+   }, 2000);
+
+   //Whenever someone disconnects this piece of code executed
+   socket.on('disconnect', function () {
+      console.log('A user disconnected');
+   });
+
+   socket.on('clientUsername', function(data) {
+      console.log('clientUsername',data);
+   });
+
+});
+
+
+http.listen(3000, function(){
+  console.log('listening on localhost:3000');
+});

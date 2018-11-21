@@ -1,8 +1,17 @@
 $(document).ready(function(){
+
+	var socket = io();
+	var username=prompt("Enter username");
+		  
+	socket.emit('clientUsername', username);
+	socket.on('testerEvent', function(data){console.log("got : ",data)});
+		
+
+
 	$("#startQuizButton").click(function(){
 		console.log("Start a new quiz");
 		$("#joinQuizContainer").css("display","none");
-		/* go to second page*/
+		/* get key*/
 		
 	});
 
