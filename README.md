@@ -3,8 +3,9 @@
 ## Installation
 
 1) Node
-2) Express for node
-3) Socket.io for node
+2) nodemon
+3) Express for node
+4) Socket.io for node
 
 ## Running
 
