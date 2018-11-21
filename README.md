@@ -3,7 +3,7 @@
 ## Installation
 
 1) Node
-2) nodemon
+2) nodemon : npm install -g nodemon
 3) Express for node
 4) Socket.io for node
 
