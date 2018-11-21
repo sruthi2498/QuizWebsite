@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="css/choose_qui.css">
+<script src="js/choose_qui.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<br><br><br>
+<!-- <div class="container">
+<div class="row"> -->
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'topic1')" id="defaultOpen">Topic 1</button>
+  <button class="tablinks" onclick="openCity(event, 'topic2')">Topic 2</button>
+  <button class="tablinks" onclick="openCity(event, 'topic3')">Topic 3</button>
+</div>
+
+
+<div id="topic1" class="tabcontent">
+  <h3>Topic 1</h3>
+  <p>Topic 1 desc </p>
+</div>
+
+<div id="topic2" class="tabcontent">
+  <h3>Topic 2</h3>
+  <p>Topic 2 desc</p>
+</div>
+
+<div id="topic3" class="tabcontent">
+  <h3>Topic 3</h3>
+  <p>Topic 3 desc</p>
+</div>
+<!-- </div> -->
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<div class="container">
+  <div class="rad">
+  <form>
+    <label class="radio-inline">
+      <input type="radio" name="optradio" checked>Easy
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="optradio">Medium
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="optradio">Hard
+    </label>
+  </form>
+  </div>
+</div>
+<br><br>
+<div class="but">
+  <button class="button"><span>Go </span></button>
+</div>
+<!-- </div> -->
+<script>
+function openCity(evt, topicName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(topicName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+
+</body>
+</html>
