@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var vk=require("./valid_key");
 var qh=require("./quiz_handler");
 var db=require("./db/node_db_main");
+var io = require('socket.io');
 
 app.use(bodyParser.urlencoded({ extended: true })); 
 
@@ -42,7 +43,7 @@ app.get('/getQuizLength', function(req, res) {
 	}
 	console.log("quizname : ",req.query.quiz_name);
 	quiz_name=req.query.quiz_name;
-	qh.getAllQuestionsForQuiz("quiz_d",function(err, results){
+	qh.getAllQuestionsForQuiz(quiz_name,function(err, results){
 	    if(err) {
 	    	console.log(err);
 	    	res.send("Error "+err);
@@ -55,82 +56,56 @@ app.get('/getQuizLength', function(req, res) {
 	    	QuestList=[]
 		    console.log("All questions Got results : "+results.length);
 		    res.send(results.length.toString());
-		    	// for(var i=0;i<results.length;i++){
-		    	// 	QuestList.push(
-			    // 	{
-			    // 		  "quiz_id": results[i].quiz_id,
-						 //  "question_id": results[i].question_id,
-						 //  "question": results[i].question,
-						 //  "option1": results[i].option1,
-						 //  "option2": results[i].option2,
-						 //  "option3": results[i].option3,
-						 //  "option4": results[i].option4,
-						 //  "correct_option": results[i].correct_option,
-						 //  "num_attempted": results[i].num_attempted,
-						 //  "num_correct": results[i].num_correct
-			    // 	}
-			    // );
 		}
 	}); 
 
 });
 
+app.get('/getQuestion', function(req, res) {
+	if(req.body==null){
+		console.log("req.body is null");
+		res.send("Error req.body is null");
+	}
+	console.log("quizname : ",req.query.quiz_name," curr question : ",req.query.curr_quest,"next : ",req.query.next);
+	quiz_name=req.query.quiz_name;
+	curr_quest=req.query.curr_quest;
+	next=req.query.next;
+	if(next){
+		qh.getNextQuestionsForQuiz(quiz_name,curr_quest,function(err, results){
+		    if(err) {
+		    	console.log(err);
+		    	res.send("Error "+err);
+		    }
+		    else if(results==null){
+		    	console.log("null results");
+		    	res.send("Error null results");
+		    }
+		    else{
+		    	QuestList=[]
+			    console.log("Next question Got results : "+results.length);
+			    res.send(results);
+			}
+		}); 
+	}
+	else{
+		qh.getPrevQuestionsForQuiz(quiz_name,curr_quest,function(err, results){
+		    if(err) {
+		    	console.log(err);
+		    	res.send("Error "+err);
+		    }
+		    else if(results==null){
+		    	console.log("null results");
+		    	res.send("Error null results");
+		    }
+		    else{
+		    	QuestList=[]
+			    console.log("Prev question Got results : "+results.length);
+			    res.send(results);
+			}
+		}); 
+	}
+});
 
-
-	
-// qh.getNextQuestionsForQuiz("quiz_d",2,function(err, results){
-//     if(err) console.log(err);
-//     else if(results==null)console.log("null results");
-//     else{
-//     	QuestList=[]
-// 	    console.log("Next question Got results : "+results.length);
-// 	    	for(var i=0;i<results.length;i++){
-// 	    		QuestList.push(
-// 		    	{
-// 		    		  "quiz_id": results[i].quiz_id,
-// 					  "question_id": results[i].question_id,
-// 					  "question": results[i].question,
-// 					  "option1": results[i].option1,
-// 					  "option2": results[i].option2,
-// 					  "option3": results[i].option3,
-// 					  "option4": results[i].option4,
-// 					  "correct_option": results[i].correct_option,
-// 					  "num_attempted": results[i].num_attempted,
-// 					  "num_correct": results[i].num_correct
-// 		    	}
-// 		    );
-// 	    }
-// 	    console.log("QuestList : ",QuestList);
-// 	}   
-
-// });
-
-// qh.getPrevQuestionsForQuiz("quiz_d",2,function(err, results){
-//     if(err) console.log(err);
-//     else if(results==null)console.log("null results");
-//     else{
-//     	QuestList=[]
-// 	    console.log("Prev question Got results : "+results.length);
-// 	    	for(var i=0;i<results.length;i++){
-// 	    		QuestList.push(
-// 		    	{
-// 		    		  "quiz_id": results[i].quiz_id,
-// 					  "question_id": results[i].question_id,
-// 					  "question": results[i].question,
-// 					  "option1": results[i].option1,
-// 					  "option2": results[i].option2,
-// 					  "option3": results[i].option3,
-// 					  "option4": results[i].option4,
-// 					  "correct_option": results[i].correct_option,
-// 					  "num_attempted": results[i].num_attempted,
-// 					  "num_correct": results[i].num_correct
-// 		    	}
-// 		    );
-// 	    }
-// 	    console.log("QuestList : ",QuestList);
-// 	}   
-
-// });
 
 console.log("server running at localhost:3000 ....");
 app.listen(3000);

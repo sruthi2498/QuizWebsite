@@ -76,7 +76,7 @@ var getQuestion={
 		console.log("sending curr question =",curr_quest);
 
 		query_string=quest_url+"?quiz_name="+quiz_name+"&curr_quest="+curr_quest+"&next=0";
-		if(next)query_string=quest_url+"?quiz_name="+quiz_name+"?curr_quest="+curr_quest+"&next=1";
+		if(next)query_string=quest_url+"?quiz_name="+quiz_name+"&curr_quest="+curr_quest+"&next=1";
 		this.xhr.onreadystatechange=this.GetResponse;
 		this.xhr.open("GET",query_string);
 		this.xhr.send();
@@ -84,7 +84,7 @@ var getQuestion={
 	GetResponse:function(){
 		if(this.readyState==4 && this.status==200){
 			var res=this.responseText;
-			console.log("Response : ",res); 
+			console.log("Get Question Response : ",res); 
 			
 			
 			
@@ -104,7 +104,7 @@ var getAllQuestion={
 	GetResponse:function(){
 		if(this.readyState==4 && this.status==200){
 			var res=this.responseText;
-			console.log("Response : ",res); 
+			console.log("Quiz length Response : ",res); 
 			
 			
 			
@@ -115,5 +115,6 @@ var getAllQuestion={
 getAllQuestion.sendQuizName(quiz_name);
 
 
+getQuestion.sendCurrQuestToServer(quiz_name,3,1);
 
 
