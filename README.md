@@ -17,3 +17,4 @@ From project root :
 
     home.html --> localhost:3000/home
     choose_quiz.html --> localhost:3000/chooseQuiz
+    end_quiz.html --> localhost:3000/endQuiz
