@@ -35,6 +35,12 @@ app.get('/quizpage', function(req, res){
    res.sendFile('quizpage2.html', { root: path.join(__dirname, '../') });
 });
 
+app.get('/chooseQuiz', function(req, res){
+   res.sendFile('choose_quiz.html', { root: path.join(__dirname, '../') });
+});
+app.get('/endQuiz', function(req, res){
+   res.sendFile('end_quiz.html', { root: path.join(__dirname, '../') });
+});
 
 app.get('/getQuizLength', function(req, res) {
 	if(req.body==null){
