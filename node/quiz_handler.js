@@ -27,6 +27,26 @@ function getAllQuestionsForQuiz2(quiz_name,callback){
     });
 }
 
+exports.getAllQuizzes=function(callback){
+	console.log("get qll questions");
+	return [{
+			"name":"quiz_a","desc":"This is quiz_a"
+			},
+			{
+			"name":"quiz_b","desc":"This is quiz_b"
+			},
+			{
+			"name":"quiz_c","desc":"This is quiz_c"
+			},
+			{
+			"name":"quiz_d","desc":"This is quiz_d"
+			}
+	];
+};
+
+ 
+
+
 exports.getNextQuestionsForQuiz=function(quiz_name,curr_quest_num,callback){
 	console.log("get next question for "+quiz_name+" curr_quest_num = ",curr_quest_num);
 	getNextQuestionForQuiz2(quiz_name, curr_quest_num,function (err, result) {

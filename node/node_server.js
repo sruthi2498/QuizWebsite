@@ -5,10 +5,12 @@ var express=require("express");
 var app = express();
 var http=require("http").Server(app);
 var bodyParser = require('body-parser');
-var vk=require("./valid_key");
+var k=require("./keys_handler");
 var qh=require("./quiz_handler");
 var db=require("./db/node_db_main");
 var io_home = require('socket.io')(http);
+var qs=require("./quiz_session_handler");
+
 
 app.use(bodyParser.urlencoded({ extended: true })); 
 
@@ -24,19 +26,38 @@ app.get('/home', function(req, res){
 app.post('/joinquizkey', function(req, res) {
 	if(req.body==null)console.log("req.body is null");
 	console.log("joinquizkey : ",req.body.key);
-	if(vk.checkValidKey(req.body.key))res.send("Valid");
-	else res.send("Invalid");
+	key=req.body.key;
+	k.checkValidKey(key,function(err, results){
+	    if(err) {
+	    	console.log(err);
+	    	res.send("Error "+err);
+	    }
+	    else if(results==null){
+	    	console.log("null results");
+	    	res.send("Error null results");
+	    }
+	    else{
+		    if(results.length==0){
+		    	res.send("Invalid");
+		    }
+		    else {
+		    	res.send("Valid");
+		    }
+		}
+	}); 
 
 });
 
-app.post('/joinquiz', function(req, res){
-   res.sendFile('sink.html', { root: path.join(__dirname, '../') });
+app.get('/joinquiz', function(req, res){
+
+   res.sendFile('sync.html', { root: path.join(__dirname, '../') });
 });
 app.get('/quizpage', function(req, res){
    res.sendFile('quizpage2.html', { root: path.join(__dirname, '../') });
 });
 
 app.get('/chooseQuiz', function(req, res){
+	username=req.query.username;
    res.sendFile('choose_quiz.html', { root: path.join(__dirname, '../') });
 });
 app.get('/endQuiz', function(req, res){
@@ -60,7 +81,6 @@ app.get('/getQuizLength', function(req, res) {
 	    	res.send("Error null results");
 	    }
 	    else{
-	    	QuestList=[]
 		    console.log("All questions Got results : "+results.length);
 		    res.send(results.length.toString());
 		}
@@ -88,9 +108,9 @@ app.get('/getQuestion', function(req, res) {
 		    	res.send("Error null results");
 		    }
 		    else{
-		    	QuestList=[]
 			    console.log("Next question Got results : "+results.length);
-			    res.send(results);
+			    res.setHeader('Content-Type', 'application/json');
+			    res.json(results);
 			}
 		}); 
 	}
@@ -107,6 +127,7 @@ app.get('/getQuestion', function(req, res) {
 		    else{
 		    	QuestList=[]
 			    console.log("Prev question Got results : "+results.length);
+			    res.setHeader('Content-Type', 'application/json');
 			    res.send(results);
 			}
 		}); 
@@ -133,7 +154,46 @@ io_home.on('connection', function(socket) {
 
 });
 
+app.get('/addPlayer1', function(req, res) {
+	if(req.body==null){
+		console.log("req.body is null");
+		res.send("Error req.body is null");
+	}
+	player1=req.query.username;
+	console.log("Adding Player 1 :",player1);
+	qs.enterPlayer1Details(player1,function(err, results){
+	    if(err) {
+	    	console.log(err);
+	    	res.send("Error "+err);
+	    }
+	    else if(results==null){
+	    	console.log("null results");
+	    	res.send("Error null results");
+	    }
+	    else{
+		    console.log("quiz session : ",results[0].quiz_session_id);
+		    res.send(results[0].quiz_session_id.toString());
+		}
+	}); 
+
+
+});
+
+app.get('/getAllQuizzes', function(req, res) {
+	if(req.body==null){
+		console.log("req.body is null");
+		res.send("Error req.body is null");
+	}
+	all_quizzes=qh.getAllQuizzes();
+	res.setHeader('Content-Type', 'application/json');
+	res.send(all_quizzes);
+
+
+
+});
+
 
 http.listen(3000, function(){
   console.log('listening on localhost:3000');
 });
+

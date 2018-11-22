@@ -1,17 +1,22 @@
 $(document).ready(function(){
 
+
 	var socket = io();
-	var username=prompt("Enter username");
-		  
+	username=prompt("Enter username");
+		
 	socket.emit('clientUsername', username);
 	socket.on('testerEvent', function(data){console.log("got : ",data)});
 		
-
+	startQuizKey=0;
 
 	$("#startQuizButton").click(function(){
 		console.log("Start a new quiz");
-		$("#joinQuizContainer").css("display","none");
-		/* get key*/
+		$("#startKey").css("display","block");
+		$("#generatedKey").css("display","block");
+
+		/* make key*/
+		startQuiz.SendUsernameToServer(username);
+
 		
 	});
 
@@ -22,6 +27,7 @@ $(document).ready(function(){
 	});
 
 	$("#joinQuizGo").click(function(){
+
 		//Remove invaild key message
 		$("#invalidJoin").css("display","none");
 		console.log("Joined quiz GO");
@@ -51,8 +57,8 @@ var joinQuiz={
 			var res=this.responseText;
 			console.log("Response : ",res); 
 			if(res=="Valid"){
-				console.log("Going to sink page");
-				$("#joinForm").submit();
+				console.log("Going to choose quiz page");
+				window.location="http://localhost:3000/chooseQuiz?username="+username+"&key="+startQuizKey;
 			}
 			else{
 				console.log("Invalid key");
@@ -62,6 +68,27 @@ var joinQuiz={
 				$("#joinQuizKey").prop("value","");
 			}
 			
+			
+		}
+	}
+}
+
+var startQuiz={
+	xhr:new XMLHttpRequest(),
+	SendUsernameToServer:function(username){
+		console.log("sending request username =",username);
+		this.xhr.onreadystatechange=this.GetResponse;
+		this.xhr.open("GET","http://localhost:3000/addPlayer1?username="+username);
+		this.xhr.send();
+	},
+	GetResponse:function(){
+		if(this.readyState==4 && this.status==200){
+			var res=this.responseText;
+			console.log("Response : ",res); 
+			startQuizKey=res;
+			$("#generatedKey").text(res);
+			$("#generatedKey").css("display","block");
+
 			
 		}
 	}

@@ -84,9 +84,10 @@ var getQuestion={
 	GetResponse:function(){
 		if(this.readyState==4 && this.status==200){
 			var res=this.responseText;
-			console.log("Get Question Response : ",res); 
-			
-			
+			console.log("Get Question Response : ",res);
+			var resJSON=JSON.parse(res);
+			console.log("resJSON[0] : ",resJSON[0]);
+			console.log("resJSON[0]['question'] : ",resJSON[0].question);
 			
 		}
 	}

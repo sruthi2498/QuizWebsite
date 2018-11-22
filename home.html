@@ -9,17 +9,17 @@
 	</head>
 	<body style="margin-left:43%; margin-top:17%;">
 		<button class="button" id="startQuizButton"><span>Start Quiz</span></button>
+		<div  style="display:none;color:white;" id="startKey">Key : </div>
+		<div  style="display:none;color:white;" id="generatedKey">NO key</div>
 		<br></br>
 		<button class="button" id="joinQuizButton"><span>Join Quiz</span></button>
 		
-		<form id="joinForm" method="POST" action="http://localhost:3000/joinquiz">
 			<div style="display:none;" class="container" id="joinQuizContainer">
 				<input type="text" id="joinQuizKey" placeholder="Enter code" name="code" required>
 
-			  	<button id="joinQuizGo" type="submit" class="registerbtn">Submit</button>
+			  	<button id="joinQuizGo" class="registerbtn" type="submit">Submit</button>
 
 			  	<div id="invalidJoin">Invalid ID. Try again</div>
 			</div>
-		</form>
 	</body>
 </html>
