@@ -70,6 +70,7 @@ var getQuestion={
 	GetResponse:function(){
 		if(this.readyState==4 && this.status==200){
 			var res=this.responseText;
+
 			console.log("Get Question Response : ",res); 
 			var resj=JSON.parse(res); 
 			document.getElementById("ques").innerHTML=resj[0].question;
@@ -80,8 +81,7 @@ var getQuestion={
 	
 			if(curr_quest==quiz_len)
 				document.getElementById("next").disabled=true;		
-			
-			
+		
 			
 		}
 	}
