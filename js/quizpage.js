@@ -80,8 +80,7 @@ var getQuestion={
 			document.getElementById("option4").innerHTML=resj[0].option4;
 	
 			if(curr_quest==quiz_len)
-				document.getElementById("next").disabled=true;		
-		
+				document.getElementById("next").disabled=true;	
 			
 		}
 	}
