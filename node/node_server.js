@@ -90,16 +90,19 @@ app.get('/getQuizLength', function(req, res) {
 });
 
 app.get('/getQuestion', function(req, res) {
+	//get next question
+	// increment attempted num for this question by 1
+	// store the time for the prev question
+
 	if(req.body==null){
 		console.log("req.body is null");
 		res.send("Error req.body is null");
 	}
-	console.log("quizname : ",req.query.quiz_name," curr question : ",req.query.curr_quest,"next : ",req.query.next);
+	console.log("quizname : ",req.query.quiz_name," curr question : ",req.query.curr_quest);
 	quiz_name=req.query.quiz_name;
 	curr_quest=req.query.curr_quest;
 	next=req.query.next;
-	if(next){
-		qh.getNextQuestionsForQuiz(quiz_name,curr_quest,function(err, results){
+	qh.getNextQuestionsForQuiz(quiz_name,curr_quest,function(err, results){
 		    if(err) {
 		    	console.log(err);
 		    	res.send("Error "+err);
@@ -113,26 +116,11 @@ app.get('/getQuestion', function(req, res) {
 			    res.setHeader('Content-Type', 'application/json');
 			    res.json(results);
 			}
-		}); 
-	}
-	else{
-		qh.getPrevQuestionsForQuiz(quiz_name,curr_quest,function(err, results){
-		    if(err) {
-		    	console.log(err);
-		    	res.send("Error "+err);
-		    }
-		    else if(results==null){
-		    	console.log("null results");
-		    	res.send("Error null results");
-		    }
-		    else{
-		    	QuestList=[]
-			    console.log("Prev question Got results : "+results.length);
-			    res.setHeader('Content-Type', 'application/json');
-			    res.send(results);
-			}
-		}); 
-	}
+	}); 
+
+
+	
+
 });
 
 

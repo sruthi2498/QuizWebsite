@@ -27,7 +27,7 @@ function getAllQuestionsForQuiz2(quiz_name,callback){
     });
 }
 
-exports.getAllQuizzes=function(callback){
+exports.getAllQuizzes=function(){
 	console.log("get qll questions");
 	return [{
 			"name":"quiz_a","desc":"This is quiz_a"
@@ -62,7 +62,17 @@ exports.getNextQuestionsForQuiz=function(quiz_name,curr_quest_num,callback){
 
  
 function getNextQuestionForQuiz2(quiz_name,curr_quest_num,callback){
+
 	next_q=(parseInt(curr_quest_num)+1).toString();
+
+	// increment attempted for this question
+	var sql="UPDATE "+quiz_name+" SET num_attempted=num_attempted+1 WHERE question_id = "+next_q;
+	con.query(sql, function(err, rows) {
+        if(err) return callback(err);
+        console.log("updated row for ",next_q);
+    });
+
+
 	var sql="SELECT * FROM "+quiz_name +" WHERE question_id = "+next_q;
 	con.query(sql, function(err, rows) {
         if(err) return callback(err);
@@ -70,13 +80,12 @@ function getNextQuestionForQuiz2(quiz_name,curr_quest_num,callback){
     });
 }
 
-
-exports.getPrevQuestionsForQuiz=function(quiz_name,curr_quest_num,callback){
-	console.log("get prev question");
-	getPrevQuestionForQuiz2(quiz_name, curr_quest_num,function (err, result) {
+exports.storeTimeForQuestion=function(quiz_name,quiz_session_id,player,curr_quest_num,time,callback){
+	console.log("setting time for player = "+player+" quiz = "+quiz_name+" curr_quest_num = ",curr_quest_num," time = "+time);
+	storeTimeForQuestion2(quiz_name, quiz_session_id,player,curr_quest_num,time,function (err, result) {
 
         if(err || !result.length){
-        //	console.log("error : ",err," result.length : ",result.length);
+       // 	console.log("error : ",err," result.length : ",result.length);
         	return callback('error or no results');
         } 
         callback(null, result);
@@ -85,16 +94,58 @@ exports.getPrevQuestionsForQuiz=function(quiz_name,curr_quest_num,callback){
 };
 
  
-function getPrevQuestionForQuiz2(quiz_name,curr_quest_num,callback){
-	prev_q=(parseInt(curr_quest_num)-1).toString();
-	var sql="SELECT * FROM "+quiz_name +" WHERE question_id = "+prev_q;
-	con.query(sql, function(err, rows) {
-        if(err) return callback(err);
-        callback(null, rows);
-    });
+function storeTimeForQuestion2(quiz_name,quiz_session_id,player,curr_quest_num,time,callback){
+
+	curr_quest_num=parseInt(curr_quest_num,10);
+    time=parseInt(time,10);
+    var sql=""
+    if(player=="player1"){
+    	sql="UPDATE "+quiz_session+" SET player1_total_time=player1_total_time+time WHERE quiz_session_id="+quiz_session_id;
+    	con.query(sql, function(err, rows) {
+	        if(err) return callback(err);
+	        callback(null, rows);
+	    });
+    }
+    else if(player=="player2"){
+    	sql="UPDATE "+quiz_session+" SET player2_total_time=player2_total_time+time WHERE quiz_session_id="+quiz_session_id;
+    	con.query(sql, function(err, rows) {
+	        if(err) return callback(err);
+	        callback(null, rows);
+	    });
+    }
+    else{
+    	callback("error no such player");
+    }
+
 }
 
+exports.getPlayerForUsername=function(username,quiz_session_id,callback){
+	console.log("setting time for username = "+username+" quiz = "+quiz_name+" curr_quest_num = ",curr_quest_num," time = "+time);
+	getPlayerForUsername2(username,quiz_session_id,function (err, result) {
 
+        if(err || !result.length){
+       // 	console.log("error : ",err," result.length : ",result.length);
+        	return callback('error or no results');
+        } 
+        else if(result[0].player1==username){
+        	callback(null, "player1");
+        }
+        else if(result[0].player2==username){
+        	callback(null, "player2");
+        }
+        callback(null, "empty");
+    });
+};
+
+ 
+function getPlayerForUsername2(username,quiz_session_id,callback){
+
+	var sql="SELECT * FROM quiz_session WHERE quiz_session_id="+quiz_session_id;
+	con.query(sql, function(err, rows) {
+        if(err) return callback(err);
+        callback(null,rows);
+    });
+}
 
 // RowDataPacket {
 //   quiz_id: null,
