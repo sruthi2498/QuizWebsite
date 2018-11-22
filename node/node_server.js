@@ -258,6 +258,11 @@ io_home.on('connection', function(socket) {
      socket.emit('opponentReady', data);
    });
 
+   socket.on("userNext",function(data){
+     console.log('user Next : ',data);
+     socket.emit('opponentNext', data);
+   });
+
 
 
 });

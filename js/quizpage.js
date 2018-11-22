@@ -8,6 +8,8 @@ var d1;
 var d2;
 var time;
 
+var socket=io();
+
 var getQuestion={
 	xhr:new XMLHttpRequest(),
 	sendCurrQuestToServer:function(quiz_name,curr_quest,next){ 
@@ -56,7 +58,27 @@ var getAllQuestion={
 			console.log("Quiz length Response : ",res);
 			quiz_len=parseInt(res);
 			
-	
+			
+			ul_user=document.getElementById("userPagination");
+			for( i=0;i<quiz_len;i++){
+				a=document.createElement("a");
+				a.href="#";
+				a.textContent=i+1;
+				li=document.createElement("li");
+				if(i==0)li.setAttribute("class","active");
+				li.appendChild(a);
+				ul_user.appendChild(li);
+			}
+			
+			ul_opp=document.getElementById("oppPagination");
+			for( i=0;i<quiz_len;i++){
+				a=document.createElement("a");
+				a.href="#";
+				a.textContent=i+1;
+				li=document.createElement("li");
+				li.appendChild(a);
+				ul_opp.appendChild(li);
+			}
 			
 			
 			
@@ -114,12 +136,33 @@ var answer={
 
 function next_ques(){
 	//end timer
-	//getQuestion.sendCurrQuestToServer(quiz_name,curr_quest,1);
+
+	li=document.getElementById("pagination").children[curr_quest];
+	li.setAttribute("class","inactive");
+	li=document.getElementById("pagination").children[curr_quest+1];
+	li.setAttribute("class","active");
+
 	d2=new Date();
 	time=Math.abs(d2-d1);
 	d1=0;d2=0;
+
 	getQuestion.sendCurrQuestToServer(quiz_name,curr_quest);
+
 	currTime.send("new_guy",18,"quiz_a",1,12);
 	answer.send("quiz_a",1);
+
+	data={
+		"username":username,
+		"curr_quest":curr_quest
+	};
+	socket.emit("userNext",data);
 	curr_quest=curr_quest+1;
+
+
 }
+
+socket.on('opponentNext', function(data){
+    if(data!=username){
+            console.log("opponent next : ",data);
+    }
+});
