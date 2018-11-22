@@ -26,20 +26,6 @@
 
 // }
 
-// function next(){
-// 	if(index==questions.length-1)
-// 		{
-		
-// 		return;}
-// 	document.getElementById("prev").disabled=false;
-// 	index++;
-// 		if(index==questions.length-1)
-// 			document.getElementById("next").disabled=true;
-// 	newd.innerHTML="Q) "+questions[index];
-// 	//a.removeChild(a.childNodes[0]);
-// 	a.appendChild(newd);
-
-// }
 
 
 
@@ -84,15 +70,24 @@ var getQuestion={
 	GetResponse:function(){
 		if(this.readyState==4 && this.status==200){
 			var res=this.responseText;
-			console.log("Get Question Response : ",res);
-			var resJSON=JSON.parse(res);
-			console.log("resJSON[0] : ",resJSON[0]);
-			console.log("resJSON[0]['question'] : ",resJSON[0].question);
+
+			console.log("Get Question Response : ",res); 
+			var resj=JSON.parse(res); 
+			document.getElementById("ques").innerHTML=resj[0].question;
+			document.getElementById("option1").innerHTML=resj[0].option1;
+			document.getElementById("option2").innerHTML=resj[0].option2;
+			document.getElementById("option3").innerHTML=resj[0].option3;
+			document.getElementById("option4").innerHTML=resj[0].option4;
+	
+			if(curr_quest==quiz_len)
+				document.getElementById("next").disabled=true;		
+		
 			
 		}
 	}
 }
 
+var quiz_len=0;
 var getAllQuestion={
 	xhr:new XMLHttpRequest(),
 	sendQuizName:function(quiz_name){ 
@@ -105,7 +100,10 @@ var getAllQuestion={
 	GetResponse:function(){
 		if(this.readyState==4 && this.status==200){
 			var res=this.responseText;
-			console.log("Quiz length Response : ",res); 
+			console.log("Quiz length Response : ",res);
+			quiz_len=parseInt(res);
+			
+	
 			
 			
 			
@@ -116,6 +114,12 @@ var getAllQuestion={
 getAllQuestion.sendQuizName(quiz_name);
 
 
-getQuestion.sendCurrQuestToServer(quiz_name,3,1);
+getQuestion.sendCurrQuestToServer(quiz_name,curr_quest++,1);
+
+ function next_ques(){
+	getQuestion.sendCurrQuestToServer(quiz_name,curr_quest,1);
+	curr_quest=curr_quest+1;
+}
+
 
 
