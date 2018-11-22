@@ -17,6 +17,7 @@ $(document).ready(function(){
 		/* make key*/
 		startQuiz.SendUsernameToServer(username);
 
+		window.location="http://localhost:3000/joinquiz?username="+username;
 		
 	});
 

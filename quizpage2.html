@@ -10,24 +10,21 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+    <script src="/socket.io/socket.io.js"></script>
 		<script type="text/javascript" src="/js/quizpage.js"></script>
+
 	</head>
 	<body ng-controller="MainCtrl as ctrl">
 
 <br>
 <div class="container">
-  <ul class="pagination">
-    <li><a href="#">1</a></li>
-    <li class="active"><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-    <li><a href="#">6</a></li>
-    <li><a href="#">7</a></li>
-    <li><a href="#">8</a></li>
-    <li><a href="#">9</a></li>
-    <li><a href="#">10</a></li>
+  <ul class="pagination" id="oppPagination">
+ 
+
+  </ul><br>
+  <ul class="pagination" id="userPagination">
+ 
+
   </ul>
 </div>
 <br>
