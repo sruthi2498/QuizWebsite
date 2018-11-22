@@ -101,7 +101,8 @@ app.get('/getQuestion', function(req, res) {
 	console.log("quizname : ",req.query.quiz_name," curr question : ",req.query.curr_quest);
 	quiz_name=req.query.quiz_name;
 	curr_quest=req.query.curr_quest;
-	next=req.query.next;
+	username=req.query.username;
+	time=req.query.time;
 	qh.getNextQuestionsForQuiz(quiz_name,curr_quest,function(err, results){
 		    if(err) {
 		    	console.log(err);
@@ -117,8 +118,6 @@ app.get('/getQuestion', function(req, res) {
 			    res.json(results);
 			}
 	}); 
-
-
 	
 
 });
@@ -189,6 +188,52 @@ app.get('/getAllQuizzes', function(req, res) {
 });
 
 
+app.get('/userQuestionSetTime', function(req, res) 
+{
+ //   console.log(req.query);
+    username=req.query.username;
+    quiz_session_id=req.query.quiz_session_id;
+    quiz_name=req.query.quiz_name;
+    curr_quest_num=req.query.curr_quest_num;
+    time=req.query.time;
+    var player="";
+    qh.storeTimeForQuestion(username,quiz_name,quiz_session_id,curr_quest_num,time,function(err, results){
+	    if(err) {
+	    	console.log(err);
+	    }
+	    else if(results==null){
+	    	console.log("null results");
+	    }
+	    else{
+		    console.log("Set time");
+		}
+	});
+
+
+});
+
+app.get('/userCorrect', function(req, res) 
+{
+  //  console.log(req.query);
+    quiz_name=req.query.quiz_name;
+    curr_quest_num=req.query.curr_quest_num;
+    
+    qh.userCorrect(quiz_name,curr_quest_num,function(err, results){
+	    if(err) {
+	    	console.log(err);
+	    }
+	    else if(results==null){
+	    	console.log("null results");
+	    }
+	    else{
+		    console.log("Incremented correct for question");
+		}
+	});
+
+
+});
+
+
 
 //Whenever someone connects this gets executed
 io_home.on('connection', function(socket) {
@@ -212,6 +257,8 @@ io_home.on('connection', function(socket) {
      console.log('user ready : ',data);
      socket.emit('opponentReady', data);
    });
+
+
 
 });
 
