@@ -62,7 +62,7 @@ var joinQuiz={
 				console.log("Add player2 to db");
 				player2.SendUsernameToServer(username,joinQuiz.key);
 				console.log("go to sync page");
-
+				window.location="http://localhost:3000/joinquiz?username="+username;
 				
 			}
 			else{
