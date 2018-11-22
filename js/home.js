@@ -45,20 +45,25 @@ $(document).ready(function(){
 
 var joinQuiz={
 	xhr:new XMLHttpRequest(),
+	key:"",
 	SendKeyToServer:function(key){
 		console.log("sending request key =",key);
+		this.key=key;
 		this.xhr.onreadystatechange=this.GetResponse;
 		this.xhr.open("POST","http://localhost:3000/joinquizkey");
 		this.xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		this.xhr.send("key="+key);
+		this.xhr.send("key="+key+"&username="+username);
 	},
 	GetResponse:function(){
 		if(this.readyState==4 && this.status==200){
 			var res=this.responseText;
 			console.log("Response : ",res); 
 			if(res=="Valid"){
-				console.log("Going to choose quiz page");
-				window.location="http://localhost:3000/chooseQuiz?username="+username+"&key="+startQuizKey;
+				console.log("Add player2 to db");
+				player2.SendUsernameToServer(username,joinQuiz.key);
+				console.log("go to sync page");
+
+				
 			}
 			else{
 				console.log("Invalid key");
@@ -79,7 +84,7 @@ var startQuiz={
 		console.log("sending request username =",username);
 		this.xhr.onreadystatechange=this.GetResponse;
 		this.xhr.open("GET","http://localhost:3000/addPlayer1?username="+username);
-		this.xhr.send();
+		this.xhr.send();   
 	},
 	GetResponse:function(){
 		if(this.readyState==4 && this.status==200){
@@ -88,6 +93,25 @@ var startQuiz={
 			startQuizKey=res;
 			$("#generatedKey").text(res);
 			$("#generatedKey").css("display","block");
+
+			
+		}
+	}
+}
+
+
+var player2={
+	xhr:new XMLHttpRequest(),
+	SendUsernameToServer:function(username,key){
+		console.log("sending request username =",username);
+		this.xhr.onreadystatechange=this.GetResponse;
+		this.xhr.open("GET","http://localhost:3000/addPlayer2?username="+username+"&key="+key);
+		this.xhr.send();   
+	},
+	GetResponse:function(){
+		if(this.readyState==4 && this.status==200){
+			var res=this.responseText;
+			console.log("Response : ",res); 
 
 			
 		}
