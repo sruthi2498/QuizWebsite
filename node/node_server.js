@@ -220,6 +220,11 @@ io_home.on('connection', function(socket) {
       console.log('clientUsername',data);
    });
 
+   socket.on("userReady",function(data){
+     console.log('user ready : ',data);
+     socket.emit('opponentReady', data);
+   });
+
 });
 
 http.listen(3000, function(){
