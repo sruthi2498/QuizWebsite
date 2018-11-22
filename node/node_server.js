@@ -25,8 +25,8 @@ app.get('/home', function(req, res){
 
 app.post('/joinquizkey', function(req, res) {
 	if(req.body==null)console.log("req.body is null");
-	console.log("joinquizkey : ",req.body.key);
 	key=req.body.key;
+	console.log("joinquizkey : ",req.body.key);
 	k.checkValidKey(key,function(err, results){
 	    if(err) {
 	    	console.log(err);
@@ -55,6 +55,7 @@ app.get('/joinquiz', function(req, res){
 app.get('/quizpage', function(req, res){
    res.sendFile('quizpage2.html', { root: path.join(__dirname, '../') });
 });
+
 
 app.get('/chooseQuiz', function(req, res){
 	username=req.query.username;
@@ -134,25 +135,6 @@ app.get('/getQuestion', function(req, res) {
 	}
 });
 
-//Whenever someone connects this gets executed
-io_home.on('connection', function(socket) {
-   console.log('A user connected');
-
-   //Send a message after a timeout of 2seconds
-   setTimeout(function() {
-     socket.emit('testerEvent', { description: 'A custom event named testerEvent!'});
-   }, 2000);
-
-   //Whenever someone disconnects this piece of code executed
-   socket.on('disconnect', function () {
-      console.log('A user disconnected');
-   });
-
-   socket.on('clientUsername', function(data) {
-      console.log('clientUsername',data);
-   });
-
-});
 
 app.get('/addPlayer1', function(req, res) {
 	if(req.body==null){
@@ -179,6 +161,32 @@ app.get('/addPlayer1', function(req, res) {
 
 });
 
+app.get('/addPlayer2', function(req, res) {
+	if(req.body==null){
+		console.log("req.body is null");
+		res.send("Error req.body is null");
+	}
+	player2=req.query.username;
+	key=req.query.key;
+	console.log("Adding Player 2 :",player2," with key : ",key);
+	qs.enterPlayer2Details(player2,key,function(err, results){
+	    if(err) {
+	    	console.log(err);
+	    	res.send("Error "+err);
+	    }
+	    else if(results==null){
+	    	console.log("null results");
+	    	res.send("Error null results");
+	    }
+	    else{
+		    console.log("Ok");
+		    res.send("Ok");
+		}
+	}); 
+
+
+});
+
 app.get('/getAllQuizzes', function(req, res) {
 	if(req.body==null){
 		console.log("req.body is null");
@@ -192,6 +200,27 @@ app.get('/getAllQuizzes', function(req, res) {
 
 });
 
+
+
+//Whenever someone connects this gets executed
+io_home.on('connection', function(socket) {
+   console.log('A user connected');
+
+   //Send a message after a timeout of 2seconds
+   // setTimeout(function() {
+   //   socket.emit('testerEvent', { description: 'A custom event named testerEvent!'});
+   // }, 2000);
+
+   //Whenever someone disconnects this piece of code executed
+   socket.on('disconnect', function () {
+      console.log('A user disconnected');
+   });
+
+   socket.on('clientUsername', function(data) {
+      console.log('clientUsername',data);
+   });
+
+});
 
 http.listen(3000, function(){
   console.log('listening on localhost:3000');

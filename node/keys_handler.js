@@ -23,9 +23,8 @@ function checkValidKey2(key,callback){
     var sql = "SELECT * FROM quiz_session WHERE quiz_session_id="+key;
     
 	con.query(sql, function(err, rows) {
-        if(err) return callback(err);
-        callback(null, rows);
-        
+        if(err) return callback(err);    
+        callback(null,rows); 
     });
 
 }

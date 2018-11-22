@@ -74,3 +74,32 @@ function enterPlayer1Details_(player1,callback){
     });
 
 }
+
+
+
+exports.enterPlayer2Details=function(player2,quiz_session_id,callback){
+	console.log("adding player 2....");
+	enterPlayer2Details_(player2,quiz_session_id,function (err, result) {
+
+	if(err){
+		console.log(err);
+		return callback("error");
+	}
+    callback(null, result);
+
+    });
+};
+
+ 
+function enterPlayer2Details_(player2,quiz_session_id,callback){
+	
+	quiz_session_id=parseInt(quiz_session_id,10);
+	var sql="UPDATE quiz_session SET player2=\""+player2+"\" WHERE quiz_session_id="+quiz_session_id;
+
+	con.query(sql, function(err, rows) {
+        if(err) return callback(err);
+        callback(null, rows);
+        
+    });
+
+}
