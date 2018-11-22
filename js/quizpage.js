@@ -35,6 +35,9 @@ var quest_url="http://localhost:3000/getQuestion";
 
 var quiz_name="quiz_a";
 
+var d1;
+var d2;
+var time;
 
 // $(document).ready(function(){
 	
@@ -61,8 +64,8 @@ var getQuestion={
 	//if next=1, get next question, else get previous question
 		console.log("sending curr question =",curr_quest);
 
-		query_string=quest_url+"?quiz_name="+quiz_name+"&curr_quest="+curr_quest+"&next=0";
-		if(next)query_string=quest_url+"?quiz_name="+quiz_name+"&curr_quest="+curr_quest+"&next=1";
+		query_string=quest_url+"?quiz_name="+quiz_name+"&curr_quest="+curr_quest+"&time="+time;
+		//if(next)query_string=quest_url+"?quiz_name="+quiz_name+"&curr_quest="+curr_quest+"&next=1";
 		this.xhr.onreadystatechange=this.GetResponse;
 		this.xhr.open("GET",query_string);
 		this.xhr.send();
@@ -78,7 +81,8 @@ var getQuestion={
 			document.getElementById("option2").innerHTML=resj[0].option2;
 			document.getElementById("option3").innerHTML=resj[0].option3;
 			document.getElementById("option4").innerHTML=resj[0].option4;
-	
+			d1=new Date();
+			//timer
 			if(curr_quest==quiz_len)
 				document.getElementById("next").disabled=true;	
 			
@@ -116,7 +120,12 @@ getAllQuestion.sendQuizName(quiz_name);
 getQuestion.sendCurrQuestToServer(quiz_name,curr_quest++,1);
 
  function next_ques(){
-	getQuestion.sendCurrQuestToServer(quiz_name,curr_quest,1);
+	//end timer
+	//getQuestion.sendCurrQuestToServer(quiz_name,curr_quest,1);
+	d2=new Date();
+	time=d2-d1;
+	d1=0;d2=0;
+	getQuestion.sendCurrQuestToServer(quiz_name,curr_quest,time);
 	curr_quest=curr_quest+1;
 }
 
