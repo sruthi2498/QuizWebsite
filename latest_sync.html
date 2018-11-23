@@ -1,3 +1,4 @@
+
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="/css/sync.css">
@@ -6,7 +7,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 
-<script src="/js/sink.js"></script>
 </head>
 <body>
 
@@ -24,11 +24,13 @@
         <html>
         <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="/js/choosequeiz.js"></script>
+
         <script src="/js/time.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<script src="/js/choosequiz.js"></script>
         <style>
         * {box-sizing: border-box}
         body {font-family: "Lato", sans-serif;}
@@ -137,49 +139,52 @@
         <div class="topic"><h3>Pick a topic</h3></div>
 
         <div class="tab">
-          <button class="tablinks" onclick="openCity(event, 'topic1')" id="defaultOpen">Topic 1</button>
-          <button class="tablinks" onclick="openCity(event, 'topic2')">Topic 2</button>
-          <button class="tablinks" onclick="openCity(event, 'topic3')">Topic 3</button>
+          <button class="tablinks" onclick="openCity(event, 'topic1',this)" id="defaultOpen" value="1">Topic 1</button>
+          <button class="tablinks" onclick="openCity(event, 'topic2',this)" value="2">Topic 2</button>
+          <button class="tablinks" onclick="openCity(event, 'topic3',this)" value="3">Topic 3</button>
         </div>
+
 
 
         <div id="topic1" class="tabcontent">
-          <h3>Topic 1</h3>
-          <p>Topic 1 desc </p>
+          <h3 id="t1">Topic 1</h3>
+          <p id="d1">Topic 1 desc </p>
         </div>
 
         <div id="topic2" class="tabcontent">
-          <h3>Topic 2</h3>
-          <p>Topic 2 desc</p>
+          <h3 id="t2">Topic 2</h3>
+          <p id="d2">Topic 2 desc</p>
         </div>
 
         <div id="topic3" class="tabcontent">
-          <h3>Topic 3</h3>
-          <p>Topic 3 desc</p>
+          <h3 id="t3">Topic 3</h3>
+          <p id="d3">Topic 3 desc</p>
         </div>
+       
+
         <!-- </div> -->
 
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
           <div class="mode"><h3>Modes</h3></div>
         <div class="container">
           <div class="rad">
-          <form>
+         <form id="form">
             <label class="radio-inline">
-              <input type="radio" name="optradio" checked>Easy
+              <input type="radio" name="optradio" checked value="easy">Easy
             </label>
             <label class="radio-inline">
-              <input type="radio" name="optradio">Hard
+              <input type="radio" name="optradio" value="hard">Hard
             </label>
           </form>
           </div>
         </div>
         <br><br>
         <div class="but">
-          <button class="button"><span>Go </span></button>
+          <button class="button" onclick="gogo()"><span>Go </span></button>
         </div>
         <!-- </div> -->
         <script>
-        function openCity(evt, topicName) {
+        function openCity(evt, topicName,e) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tabcontent");
             for (i = 0; i < tabcontent.length; i++) {
@@ -191,6 +196,7 @@
             }
             document.getElementById(topicName).style.display = "block";
             evt.currentTarget.className += " active";
+		selected=e.getAttribute("value");
         }
         // Get the element with id="defaultOpen" and click on it
         document.getElementById("defaultOpen").click();
@@ -262,5 +268,7 @@
   <div class="panel-body">A Basic Panel</div>
 </div> -->
 </div>
+
 </body>
 </html>
+
