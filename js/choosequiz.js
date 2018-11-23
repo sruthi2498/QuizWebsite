@@ -56,21 +56,21 @@ function gogo()
 var form=document.getElementsByName('optradio');
 for(var i=0,length=form.length;i<length;i++)
 	if(form[i].checked)
-		difficulty=form[i].value;
+		mode=form[i].value;
 qname=startQuiz.response[selected-1].name;
-
+console.log(qname,mode);
 
 //
-quizname_url= ? 
+//quizname_url=0;
 //
 
 var sendQuiz={
 	xhr:new XMLHttpRequest(),
 	sendQuizNameToServer:function(qname,difficulty){ 
 	//if next=1, get next question, else get previous question
-		console.log("sending quiz name, diff  =",qname,diffculty);
+		console.log("sending quiz name, mode  =",qname,mode);
 
-		query_string=quizname_url+"?quiz_name="+qname+"&difficulty="+difficulty;
+		query_string=quizname_url+"?quiz_name="+qname+"&mode="+difficulty;
 		//if(next)query_string=quest_url+"?quiz_name="+quiz_name+"&curr_quest="+curr_quest+"&next=1";
 		//this.xhr.onreadystatechange=this.GetResponse;
 		this.xhr.open("GET",query_string);
