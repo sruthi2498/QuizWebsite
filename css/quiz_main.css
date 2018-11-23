@@ -12,3 +12,8 @@
 }
 
 .pagination a:hover:not(.active) {background-color: #ddd;}
+
+#chart {
+  max-width: 650px;
+  margin: 35px auto;
+}

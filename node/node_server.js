@@ -60,7 +60,7 @@ app.post('/joinquizkey', function(req, res) {
 
 app.get('/joinquiz', function(req, res){
 
-   res.sendFile('sync-v2.html', { root: path.join(__dirname, '../') });
+   res.sendFile('latest_sync.html', { root: path.join(__dirname, '../') });
 });
 
 app.get('/endquiz', function(req, res){
@@ -282,6 +282,15 @@ app.get('/getWinner', function(req, res)
 		    	res.send(results[0].player2);
 		    }
 		}
+	});
+
+	qs.deleteSession(quiz_session_id,function(err, results){
+	    if(err) {
+	    	console.log(err);
+	    	//res.send("");
+	    }
+	    console.log("OK");
+	    //res.send("OK");
 	});
 
 
