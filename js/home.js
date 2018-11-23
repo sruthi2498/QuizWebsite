@@ -103,7 +103,7 @@ var startQuiz={
 			startQuizKey=res;
 			$("#generatedKey").text(res);
 			$("#generatedKey").css("display","block");
-			window.location="http://localhost:3000/joinquiz?username="+username+"&key="+startQuizKey;
+			window.location="http://localhost:3000/joinquiz?username="+username+"&key="+startQuizKey+"&modal=1";
 			
 		}
 	}
@@ -127,7 +127,7 @@ var player2={
 			var res=this.responseText;
 			console.log("Response : ",res); 
 			console.log("go to sync page");
-			window.location="http://localhost:3000/joinquiz?username="+player2.username+"&key="+player2.key;
+			window.location="http://localhost:3000/joinquiz?username="+player2.username+"&key="+player2.key+"&modal=0";
 			
 		}
 	}

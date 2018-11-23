@@ -2,12 +2,26 @@ $(document).ready(function(){
     var socket = io();
     var url_string=window.location.href;
     var url=new URL(url_string);
-    var username=url.searchParams.get("username");
-    var key=url.searchParams.get("key");
-    quiz_name="quiz_a";
+    var modal=url.searchParams.get("modal");
+    if(modal==1){
+        $("#openModal").click();
+    }
+    else{
+        username=url.searchParams.get("username");
+        key=url.searchParams.get("key");
+        quiz_name=url.searchParams.get("quiz_name");
+        mode=url.searchParams.get("mode");
+    }
+    
+    
+
+    
 
     $("#user").text("You");
     $("#code").text("code : "+key);
+    $("#code").text("code : "+key);
+    $("#topic").text("topic : "+quiz_name);
+    $("#level").text("level : "+mode);
 
     userReady=0;
     oppReady=0;
