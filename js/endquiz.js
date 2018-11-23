@@ -20,7 +20,11 @@ $(document).ready(function(){
 		
 
     }
-});
+	});
+
+	$("#new").click(function(){
+		window.url="http://localhost:3000/home";
+	});
 
 });
 

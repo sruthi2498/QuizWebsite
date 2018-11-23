@@ -2,7 +2,6 @@ var curr_quest=0;
 var quiz_url="http://localhost:3000/getQuizLength";
 var quest_url="http://localhost:3000/getQuestion";
 
-quiz_name="quiz_a";
 
 var d1;
 var d2;
@@ -10,12 +9,8 @@ var time;
 
 var socket=io();
 
-var url_string=window.location.href;
-var url=new URL(url_string);
-var username=url.searchParams.get("username");
-var key=url.searchParams.get("key");
-//var mode=url.searchParams.get("mode");
-var mode="easy";
+
+
 index=0;
 easy_start=0;
 hard_start=0;
@@ -28,6 +23,13 @@ user_answer="-1";
 
 $(document).ready(function() {
 
+	var url_string=window.location.href;
+	var url=new URL(url_string);
+	username=url.searchParams.get("username");
+	key=url.searchParams.get("key");
+	mode=url.searchParams.get("mode");
+	quiz_name=url.searchParams.get("quiz_name");
+
 	$('.list-group-item').on('click', function() {
 	    var _this = $(this);
 	    chosen_value=_this.text();
@@ -38,6 +40,10 @@ $(document).ready(function() {
 
 	});
 
+	getAllQuestion.sendQuizName(quiz_name);
+
+
+	getQuestion.sendCurrQuestToServer(quiz_name,curr_quest,1);
 	
 });
 
@@ -143,16 +149,12 @@ var getAllQuestion={
 				ul_opp.appendChild(li);
 			}
 			
-			
-			
 		}
 	}
 }
 
-getAllQuestion.sendQuizName(quiz_name);
 
 
-getQuestion.sendCurrQuestToServer(quiz_name,curr_quest,1);
 
 
 
