@@ -4,6 +4,7 @@ $(document).ready(function(){
     var url=new URL(url_string);
     var username=url.searchParams.get("username");
     var key=url.searchParams.get("key");
+    quiz_name="quiz_a";
 
     $("#user").text("You");
     $("#code").text("code : "+key);
@@ -14,7 +15,7 @@ $(document).ready(function(){
         function(){
           //  console.log("userReady ",userReady,"oppReady ",oppReady);
             if(userReady==1 && oppReady==1){
-                window.location="http://localhost:3000/quizpage?username="+username+"&key="+key;
+                window.location="http://localhost:3000/quizpage?username="+username+"&key="+key+"&quiz_name="+quiz_name;
             }
           }, 
     2000);
