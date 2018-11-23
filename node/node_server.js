@@ -277,6 +277,8 @@ app.get('/setQuizAndMode', function(req, res)
 });
 
 
+
+
 app.get('/getWinner', function(req, res) 
 {
   //  console.log(req.query);
@@ -318,6 +320,30 @@ app.get('/getWinner', function(req, res)
 
 });
 
+
+app.get('/getSessionDetails', function(req, res) {
+	if(req.body==null){
+		console.log("req.body is null");
+		res.send("Error req.body is null");
+	}
+	quiz_session_id=req.query.quiz_session_id;
+	qs.getSessionDetails(quiz_session_id,function(err, results){
+	    if(err) {
+	    	console.log(err);
+	    	res.send("Error "+err);
+	    }
+	    else if(results==null){
+	    	console.log("null results");
+	    	res.send("Error null results");
+	    }
+	    else{
+		    res.send(results[0]);
+		}
+	}); 
+
+
+});
+
 //Whenever someone connects this gets executed
 io_home.on('connection', function(socket) {
    console.log('A user connected');
@@ -350,6 +376,44 @@ io_home.on('connection', function(socket) {
      console.log('user End : ',data);
 
      socket.broadcast.emit('opponentEnd',data);
+   });
+
+
+   socket.on("quizEnded",function(data){
+     console.log('user End : ',data);
+     quiz_session_id=data.quiz_session_id;
+    
+    op={"winner":"","key":quiz_session_id};
+	    qs.getSessionDetails(quiz_session_id,function(err, results){
+		    if(err) {
+		    	console.log(err);
+		    }
+		    else if(results==null){
+		    	console.log("null results");		    }
+		    else{
+			    score1=results[0].player1_correct_num;
+			    score2=results[0].player2_correct_num;
+			    if(score1==score2){
+			    	op.winner="Draw";
+			    }
+			    else if(score1>score2){
+			    	op.winner=results[0].player1;
+			    }
+			    else{
+			    	op.winner=results[0].player2;
+			    }
+			}
+		});
+
+		// qs.deleteSession(quiz_session_id,function(err, results){
+		//     if(err) {
+		//     	console.log(err);
+		//     	//res.send("");
+		//     }
+		//     console.log("OK");
+		//     //res.send("OK");
+		// });
+     socket.broadcast.emit('displayResults',op);
    });
 
 

@@ -151,7 +151,41 @@ exports.setQuizAndMode=function(quiz_name,mode,quiz_session_id,callback){
 function setQuizAndMode2(quiz_name,mode,quiz_session_id,callback){
 	
 	quiz_session_id=parseInt(quiz_session_id,10);
-	var sql="UPDATE quiz_session SET quiz_name='"+quiz_name+"' AND mode='"+mode+"' WHERE quiz_session_id="+quiz_session_id;
+	quiz_name=quiz_name.toString();
+	mode=mode.toString();
+	var sql="UPDATE quiz_session SET quiz_name='"+quiz_name+"', mode='"+mode+"' WHERE quiz_session_id="+quiz_session_id;
+
+	con.query(sql, function(err, rows) {
+        if(err) return callback(err);
+        callback(null, rows);
+        
+    });
+
+}
+
+
+exports.getSessionDetails=function(quiz_session_id,callback){
+	console.log("get session for quiz_session_id : ",quiz_session_id);
+	getSessionDetails2(quiz_session_id,function (err, result) {
+
+	if(err){
+		console.log(err);
+		return callback("error");
+	}
+	else if(!result.length){
+		console.log("no result");
+		return callback("no result");
+	}
+    else callback(null, result);
+
+    });
+};
+
+ 
+function getSessionDetails2(quiz_session_id,callback){
+	
+	quiz_session_id=parseInt(quiz_session_id,10);
+	var sql="SELECT * FROM quiz_session WHERE quiz_session_id="+quiz_session_id;
 
 	con.query(sql, function(err, rows) {
         if(err) return callback(err);

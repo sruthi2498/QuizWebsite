@@ -11,17 +11,23 @@ $(document).ready(function(){
         key=url.searchParams.get("key");
         quiz_name=url.searchParams.get("quiz_name");
         mode=url.searchParams.get("mode");
+
+        if(quiz_name==null){
+            q.Send(key);
+        }
+
+
+        $("#code").text("code : "+key);
+        $("#topic").text("topic : "+quiz_name);
+        $("#level").text("level : "+mode);
     }
-    
     
 
     
 
     $("#user").text("You");
-    $("#code").text("code : "+key);
-    $("#code").text("code : "+key);
-    $("#topic").text("topic : "+quiz_name);
-    $("#level").text("level : "+mode);
+
+
 
     userReady=0;
     oppReady=0;
@@ -50,6 +56,25 @@ $(document).ready(function(){
     });
 });
 
+var q={
+    xhr:new XMLHttpRequest(),
+    Send:function(quiz_session_id){
+        console.log("get quiz name and mode");
+        this.xhr.onreadystatechange=this.GetResponse;
+        this.xhr.open("GET","http://localhost:3000/getSessionDetails?quiz_session_id="+quiz_session_id);
+        this.xhr.send();   
+    },
+    GetResponse:function(){
+        if(this.readyState==4 && this.status==200){
+            var res=this.responseText;
+            console.log("Response : ",res); 
+            resJ=JSON.parse(res);
+            $("#topic").text("topic : "+resJ.quiz_name);
+            $("#level").text("level : "+resJ.mode);
+            
+        }
+    }
+}
 
 
 
