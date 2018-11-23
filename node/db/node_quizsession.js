@@ -14,7 +14,7 @@ con.connect(function(err) {
     if (err) throw err;
     console.log("Connected!");
 
-	var sql="CREATE TABLE quiz_session(quiz_session_id  INT AUTO_INCREMENT PRIMARY KEY,quiz_name VARCHAR(255), player1 VARCHAR(255),player2 VARCHAR(255),player1_curr_quest INT DEFAULT 0, player2_curr_quest INT DEFAULT 0,  player1_correct_num INT DEFAULT 0,  player2_correct_num INT DEFAULT 0,  player1_total_time INT DEFAULT 0, player2_total_time INT DEFAULT 0)";
+	var sql="CREATE TABLE quiz_session(quiz_session_id  INT AUTO_INCREMENT PRIMARY KEY,quiz_name VARCHAR(255), mode VARCHAR(255) DEFAULT 'easy', player1 VARCHAR(255),player2 VARCHAR(255),player1_curr_quest INT DEFAULT 0, player2_curr_quest INT DEFAULT 0,  player1_correct_num INT DEFAULT 0,  player2_correct_num INT DEFAULT 0,  player1_total_time INT DEFAULT 0, player2_total_time INT DEFAULT 0)";
   
     con.query(sql, function (err, result) {
         if (err) throw err;

@@ -254,6 +254,28 @@ app.get('/userCorrect', function(req, res)
 
 });
 
+app.get('/setQuizAndMode', function(req, res) 
+{
+  //  console.log(req.query);
+
+    quiz_name=req.query.quiz_name;
+    quiz_session_id=req.query.key;
+    mode=req.query.mode;
+    
+    qs.setQuizAndMode(quiz_name,mode,quiz_session_id,function(err, results){
+	    if(err) {
+	    	console.log(err);
+	    	res.send("err");
+	    }
+	    else {
+	    	//console.log(results);
+	    	res.send("OK");
+	    }
+	});
+
+
+});
+
 
 app.get('/getWinner', function(req, res) 
 {

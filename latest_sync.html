@@ -6,14 +6,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
+<script src="/js/sink.js"></script>
 
 </head>
 <body>
 
   <div class="container">
-    <h2>Modal Example</h2>
     <!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+    <button type="button" id="openModal" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" style="display: none">Open Modal</button>
 
     <!-- Modal -->
     <div class="modal fade" id="myModal" role="dialog">
@@ -29,8 +29,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	
-	<script src="/js/choosequiz.js"></script>
+        <script src="/js/choosequiz.js"></script>
         <style>
         * {box-sizing: border-box}
         body {font-family: "Lato", sans-serif;}
@@ -196,7 +195,7 @@
             }
             document.getElementById(topicName).style.display = "block";
             evt.currentTarget.className += " active";
-		selected=e.getAttribute("value");
+            selected=e.getAttribute("value");
         }
         // Get the element with id="defaultOpen" and click on it
         document.getElementById("defaultOpen").click();
@@ -240,12 +239,13 @@
       <div class="rowx">
         <!-- <h5>code<h5> -->
         <br>
-        <h3><span class="label label-success">code: 5486</span></h3>
+        <h3><span class="label label-success" id="code">code: </span></h3>
       </div>
       <div class="rowx">
         <!-- <h5>topic<h5> -->
         <br>
-        <h3><span class="label label-warning">topic: pesu</span></h3>
+        <h3><span class="label label-warning" id="topic">topic: </span>
+          <span class="label label-warning" id="level">level: </span></h3>
       </div>
       <div class="rowx">
         <!-- <h5>time<h5> -->

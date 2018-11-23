@@ -131,3 +131,32 @@ function deleteSession2(quiz_session_id,callback){
     });
 
 }
+
+
+exports.setQuizAndMode=function(quiz_name,mode,quiz_session_id,callback){
+	console.log("setting quiz_name :",quiz_name," and mode :",mode," for quiz_session_id : ",quiz_session_id);
+	setQuizAndMode2(quiz_name,mode,quiz_session_id,function (err, result) {
+
+	if(err){
+		console.log(err);
+		return callback("error");
+	}
+	console.log("set quiz_name");
+    callback(null, result);
+
+    });
+};
+
+ 
+function setQuizAndMode2(quiz_name,mode,quiz_session_id,callback){
+	
+	quiz_session_id=parseInt(quiz_session_id,10);
+	var sql="UPDATE quiz_session SET quiz_name='"+quiz_name+"' AND mode='"+mode+"' WHERE quiz_session_id="+quiz_session_id;
+
+	con.query(sql, function(err, rows) {
+        if(err) return callback(err);
+        callback(null, rows);
+        
+    });
+
+}
