@@ -2,7 +2,7 @@ var curr_quest=0;
 var quiz_url="http://localhost:3000/getQuizLength";
 var quest_url="http://localhost:3000/getQuestion";
 
-var quiz_name="quiz_a";
+quiz_name="quiz_a";
 
 var d1;
 var d2;
@@ -14,9 +14,35 @@ var url_string=window.location.href;
 var url=new URL(url_string);
 var username=url.searchParams.get("username");
 var key=url.searchParams.get("key");
+//var mode=url.searchParams.get("mode");
+var mode="easy";
+index=0;
+easy_start=0;
+hard_start=0;
 
 var opp_curr_quest=1;
+opponentEnd=0;
 
+correct_answer="-1";
+
+$(document).ready(function() {
+
+	$('.list-group-item').on('click', function() {
+	    var _this = $(this);
+	    chosen_value=_this.text();
+	    var id=_this[0].id;
+	    $('.active').removeClass('active');
+	    _this.toggleClass('active');
+	    document.getElementById("next").disabled=false;
+	    if(checkCorrect(id))answer.send(quiz_name,1);
+
+	});
+});
+
+function checkCorrect(num){
+	if(correct_answer!="-1" && num==correct_answer)return 1;
+	return 0;
+}
 var getQuestion={
 	xhr:new XMLHttpRequest(),
 	sendCurrQuestToServer:function(quiz_name,curr_quest,next){ 
@@ -31,22 +57,40 @@ var getQuestion={
 	},
 	GetResponse:function(){
 		if(this.readyState==4 && this.status==200){
-			var res=this.responseText;
-
-		//	console.log("Get Question Response : ",res); 
-			var resj=JSON.parse(res); 
-			document.getElementById("ques").innerHTML=resj[0].question;
-			document.getElementById("option1").innerHTML=resj[0].option1;
-			document.getElementById("option2").innerHTML=resj[0].option2;
-			document.getElementById("option3").innerHTML=resj[0].option3;
-			document.getElementById("option4").innerHTML=resj[0].option4;
 			d1=new Date();
+			document.getElementById("next").disabled=true;	
+
+			var res=this.responseText;
+			//console.log(res);
+			var resj=JSON.parse(res);
+		    console.log("resj[index] : ",resj[index]); 
+			
+
+			document.getElementById("ques").innerHTML=resj[index].question;
+			document.getElementById("option1").innerHTML=resj[index].option1;
+			document.getElementById("option2").innerHTML=resj[index].option2;
+			document.getElementById("option3").innerHTML=resj[index].option3;
+			document.getElementById("option4").innerHTML=resj[index].option4;
+			correct_answer=resj[index].correct_option.toString();
 			//timer
 			if(curr_quest>=quiz_len){
 				document.getElementById("next").disabled=true;	
 				console.log("QUIZ DONE");
-				window.location="http://localhost:3000/endquiz?username="+username+"&key="+key;
+
+				data={
+					"username":username,"key":key
+				}
+				socket.emit("userEnd",data);
+
+				if(opponentEnd==1){
+					window.location="http://localhost:3000/endquiz?username="+username+"&key="+key;
+				}
+				else{
+					window.location="http://localhost:3000/endDummy?username="+username+"&key="+key;
+				} 
 			}
+			if(mode=="easy")index=easy_start+index+1;
+			else index=hard_start+index+1;
 			
 		}
 	}
@@ -66,7 +110,9 @@ var getAllQuestion={
 		if(this.readyState==4 && this.status==200){
 			var res=this.responseText;
 			console.log("Quiz length Response : ",res);
-			quiz_len=parseInt(res);
+			quiz_len=parseInt(res,10);
+			quiz_len=quiz_len/2;
+			hard_start=quiz_len;
 			ul_user=document.getElementById("userPagination");
 			for( i=0;i<quiz_len;i++){
 				a=document.createElement("a");
@@ -98,7 +144,7 @@ var getAllQuestion={
 getAllQuestion.sendQuizName(quiz_name);
 
 
-getQuestion.sendCurrQuestToServer(quiz_name,curr_quest++,1);
+getQuestion.sendCurrQuestToServer(quiz_name,curr_quest,1);
 
 
 
@@ -148,8 +194,11 @@ function next_ques(){
 	if(document.getElementById("userPagination").children.length>0){
 		li=document.getElementById("userPagination").children[curr_quest];
 		li.setAttribute("class","inactive");
-		li=document.getElementById("userPagination").children[curr_quest+1];
-		li.setAttribute("class","active");
+		if(curr_quest+1<quiz_len){
+			li=document.getElementById("userPagination").children[curr_quest+1];
+			li.setAttribute("class","active");
+		}
+		
 	}
 
 
@@ -160,7 +209,7 @@ function next_ques(){
 	getQuestion.sendCurrQuestToServer(quiz_name,curr_quest);
 
 	currTime.send(username,key,quiz_name,curr_quest,time);
-	//answer.send(quiz_name,1);
+	
 
 	data={
 		"username":username,
@@ -175,6 +224,15 @@ function next_ques(){
 
 }
 
+socket.on('opponentEnd', function(data){
+	//console.log("some player ended ",data);
+	if(data.key==key){
+		console.log("opponent ended");
+		opponentEnd=1;
+	}
+	
+});
+
 socket.on('opponentNext', function(data){
 //	console.log("opponent next : ",data);
     if(data.key==key && data.username!=username){
@@ -182,8 +240,12 @@ socket.on('opponentNext', function(data){
         console.log("opponent next : ",data);
         li=document.getElementById("oppPagination").children[opp_curr_quest];
 		li.setAttribute("class","inactive");
-		li=document.getElementById("oppPagination").children[opp_curr_quest+1];
-		li.setAttribute("class","active");
+		if(opp_curr_quest+1<quiz_len){
+			li=document.getElementById("oppPagination").children[opp_curr_quest+1];
+			li.setAttribute("class","active");
+		}
+		
 
     }
 });
+

@@ -5,17 +5,7 @@ $(document).ready(function(){
 	username=url.searchParams.get("username");
 	var key=url.searchParams.get("key");
 
-	data={
-		"username":username,"key":key
-	}
-	socket.emit("userEnd",data);
-
-	socket.on('opponentEnd', function(data){
-        console.log("received from socket",data);
-        if(data.key==key && data.username!=username){
-            end.sendKey(key);
-        }
-    });
+	end.sendKey(key);
 
 });
 

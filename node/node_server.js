@@ -12,12 +12,20 @@ var io_home = require('socket.io')(http);
 var qs=require("./quiz_session_handler");
 
 
+
+end_users_dictionary={};
+
+
 app.use(bodyParser.urlencoded({ extended: true })); 
+
 
 
 
 app.use('/js',express.static("js"));
 app.use('/css',express.static("css"));
+app.use('/images',express.static("images"));
+app.use('/fonts',express.static("fonts"));
+
 
 app.get('/home', function(req, res){
    res.sendFile('home.html', { root: path.join(__dirname, '../') });
@@ -37,7 +45,9 @@ app.post('/joinquizkey', function(req, res) {
 	    	res.send("Error null results");
 	    }
 	    else{
-		    if(results.length==0){
+	    	r=parseInt(results,10);
+	    	//console.log("results.length ",r);
+		    if(r==0){
 		    	res.send("Invalid");
 		    }
 		    else {
@@ -50,7 +60,7 @@ app.post('/joinquizkey', function(req, res) {
 
 app.get('/joinquiz', function(req, res){
 
-   res.sendFile('sync.html', { root: path.join(__dirname, '../') });
+   res.sendFile('sync-v2.html', { root: path.join(__dirname, '../') });
 });
 
 app.get('/endquiz', function(req, res){
@@ -67,6 +77,11 @@ app.get('/chooseQuiz', function(req, res){
 	username=req.query.username;
    res.sendFile('choose_quiz.html', { root: path.join(__dirname, '../') });
 });
+app.get('/endDummy', function(req, res){
+   res.sendFile('end_dummy.html', { root: path.join(__dirname, '../') });
+});
+
+
 app.get('/endQuiz', function(req, res){
    res.sendFile('end_quiz.html', { root: path.join(__dirname, '../') });
 });
@@ -302,8 +317,10 @@ io_home.on('connection', function(socket) {
 
    socket.on("userEnd",function(data){
      console.log('user End : ',data);
+
      socket.broadcast.emit('opponentEnd',data);
    });
+
 
 
 });
