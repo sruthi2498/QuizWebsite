@@ -5,7 +5,6 @@ $(document).ready(function(){
 	username=prompt("Enter username");
 		
 	socket.emit('clientUsername', username);
-	socket.on('testerEvent', function(data){console.log("got : ",data)});
 		
 	startQuizKey=0;
 
@@ -17,7 +16,6 @@ $(document).ready(function(){
 		/* make key*/
 		startQuiz.SendUsernameToServer(username);
 
-		window.location="http://localhost:3000/joinquiz?username="+username;
 		
 	});
 
@@ -62,8 +60,7 @@ var joinQuiz={
 			if(res=="Valid"){
 				console.log("Add player2 to db");
 				player2.SendUsernameToServer(username,joinQuiz.key);
-				console.log("go to sync page");
-				window.location="http://localhost:3000/joinquiz?username="+username;
+				
 				
 			}
 			else{
@@ -94,7 +91,7 @@ var startQuiz={
 			startQuizKey=res;
 			$("#generatedKey").text(res);
 			$("#generatedKey").css("display","block");
-
+			window.location="http://localhost:3000/joinquiz?username="+username+"&key="+startQuizKey;
 			
 		}
 	}
@@ -103,8 +100,12 @@ var startQuiz={
 
 var player2={
 	xhr:new XMLHttpRequest(),
+	username:"",
+	key:"",
 	SendUsernameToServer:function(username,key){
 		console.log("sending request username =",username);
+		this.username=username;
+		this.key=key;
 		this.xhr.onreadystatechange=this.GetResponse;
 		this.xhr.open("GET","http://localhost:3000/addPlayer2?username="+username+"&key="+key);
 		this.xhr.send();   
@@ -113,7 +114,8 @@ var player2={
 		if(this.readyState==4 && this.status==200){
 			var res=this.responseText;
 			console.log("Response : ",res); 
-
+			console.log("go to sync page");
+			window.location="http://localhost:3000/joinquiz?username="+player2.username+"&key="+player2.key;
 			
 		}
 	}

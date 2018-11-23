@@ -52,6 +52,12 @@ app.get('/joinquiz', function(req, res){
 
    res.sendFile('sync.html', { root: path.join(__dirname, '../') });
 });
+
+app.get('/endquiz', function(req, res){
+
+   res.sendFile('end_quiz.html', { root: path.join(__dirname, '../') });
+});
+
 app.get('/quizpage', function(req, res){
    res.sendFile('quizpage2.html', { root: path.join(__dirname, '../') });
 });
@@ -234,6 +240,37 @@ app.get('/userCorrect', function(req, res)
 });
 
 
+app.get('/getWinner', function(req, res) 
+{
+  //  console.log(req.query);
+    quiz_session_id=req.query.quiz_session_id;
+    
+    qh.getWinner(quiz_session_id,function(err, results){
+	    if(err) {
+	    	console.log(err);
+	    	res.send("");
+	    }
+	    else if(results==null){
+	    	console.log("null results");
+	    	res.send("");
+	    }
+	    else{
+		    score1=results[0].player1_correct_num;
+		    score2=results[0].player2_correct_num;
+		    if(score1==score2){
+		    	res.send("Draw");
+		    }
+		    else if(score1>score2){
+		    	res.send(results[0].player1);
+		    }
+		    else{
+		    	res.send(results[0].player2);
+		    }
+		}
+	});
+
+
+});
 
 //Whenever someone connects this gets executed
 io_home.on('connection', function(socket) {
@@ -255,14 +292,18 @@ io_home.on('connection', function(socket) {
 
    socket.on("userReady",function(data){
      console.log('user ready : ',data);
-     socket.emit('opponentReady', data);
+     socket.broadcast.emit('opponentReady',data);
    });
 
    socket.on("userNext",function(data){
      console.log('user Next : ',data);
-     socket.emit('opponentNext', data);
+     socket.broadcast.emit('opponentNext',data);
    });
 
+   socket.on("userEnd",function(data){
+     console.log('user End : ',data);
+     socket.broadcast.emit('opponentEnd',data);
+   });
 
 
 });
