@@ -61,7 +61,7 @@ qname=startQuiz.response[selected-1].name;
 
 
 //
-quizname_url= ? 
+//quizname_url= ? 
 //
 
 var sendQuiz={
@@ -70,7 +70,7 @@ var sendQuiz={
 	//if next=1, get next question, else get previous question
 		console.log("sending quiz name, diff  =",qname,diffculty);
 
-		query_string=quizname_url+"?quiz_name="+qname+"&difficulty="+difficulty;
+		query_string=quizname_url+"?quiz_name="+qname+"&mode="+difficulty;
 		//if(next)query_string=quest_url+"?quiz_name="+quiz_name+"&curr_quest="+curr_quest+"&next=1";
 		//this.xhr.onreadystatechange=this.GetResponse;
 		this.xhr.open("GET",query_string);

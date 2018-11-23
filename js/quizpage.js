@@ -91,6 +91,7 @@ var getQuestion={
 			document.getElementById("option4").innerHTML=resj[index].option4;
 			
 			;
+			$("#chart").empty();
 			PlotPie(resj[index].num_correct,resj[index].num_attempted-resj[index].num_correct);
 
 			correct_answer=resj[index].correct_option.toString();
@@ -273,9 +274,6 @@ function PlotPie(corr,incorr){
 	        options: {
 	            chart: {
 	                width: 200
-	            },
-	            legend: {
-	                position: 'bottom'
 	            }
 	        }
 	    }]
