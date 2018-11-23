@@ -79,6 +79,5 @@ var sendQuiz={
 					window.location="http://localhost:3000/joinquiz?username="+username+"&key="+key.toString()+"&quiz_name="+qname+"&mode="+mode+"&modal=0";
 				}
 				
-			}
 		}
 }
