@@ -12,7 +12,7 @@ $(document).ready(function(){
     oppReady=0;
     setInterval(
         function(){
-            console.log("userReady ",userReady,"oppReady ",oppReady);
+          //  console.log("userReady ",userReady,"oppReady ",oppReady);
             if(userReady==1 && oppReady==1){
                 window.location="http://localhost:3000/quizpage?username="+username+"&key="+key;
             }

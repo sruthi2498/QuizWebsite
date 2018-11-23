@@ -55,9 +55,12 @@ exports.getNextQuestionsForQuiz=function(quiz_name,curr_quest_num,callback){
 	console.log("get next question for "+quiz_name+" curr_quest_num = ",curr_quest_num);
 	getNextQuestionForQuiz2(quiz_name, curr_quest_num,function (err, result) {
 
-        if(err || !result.length){
+        if(err){
+        	return callback(err);
+        } 
+        else if(!result.length){
        // 	console.log("error : ",err," result.length : ",result.length);
-        	return callback('error or no results');
+        	return callback('no results');
         } 
         callback(null, result);
 
@@ -77,11 +80,21 @@ function getNextQuestionForQuiz2(quiz_name,curr_quest_num,callback){
     });
 
 
-	var sql="SELECT * FROM "+quiz_name +" WHERE question_id = "+next_q;
+	/*var sql="SELECT * FROM "+quiz_name +" WHERE question_id = "+next_q;
 	con.query(sql, function(err, rows) {
         if(err) return callback(err);
         callback(null, rows);
+    });*/
+
+    var sql="SELECT *,num_correct / num_attempted AS 'perct' FROM "+quiz_name+"     ORDER BY perct ";
+    con.query(sql, function(err, rows) {
+        if(err) {
+        	return callback(err);
+        }
+        console.log(rows);
+        callback(null, rows);
     });
+
 }
 
 exports.storeTimeForQuestion=function(username,quiz_name,quiz_session_id,curr_quest_num,time,callback){

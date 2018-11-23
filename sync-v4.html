@@ -1,0 +1,258 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/css/sync.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+<script src="/js/sink.js"></script>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Modal Example</h2>
+    <!-- Trigger the modal with a button -->
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="js/choose_quiz.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <style>
+        * {box-sizing: border-box}
+        body {font-family: "Lato", sans-serif;}
+        /* Style the tab */
+        .tab {
+            float: left;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            width: 20%;
+            height: 300px;
+            margin-left: 23%;
+        }
+        /* Style the buttons inside the tab */
+        .tab button {
+            display: block;
+            background-color: inherit;
+            color: black;
+            padding: 22px 16px;
+            width: 100%;
+            border: none;
+            outline: none;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #ddd;
+        }
+        /* Create an active/current "tab button" class */
+        .tab button.active {
+            background-color: #ccc;
+        }
+        /* Style the tab content */
+        .tabcontent {
+            float: left;
+            padding: 0px 12px;
+            border: 1px solid #ccc;
+            width: 32%;
+            border-left: none;
+            height: 300px;
+            background-color: white;
+        }
+        .rad{
+          margin-left: 19%;
+          background-color: white;
+          margin-right: 70%
+        }
+        /* button */
+        .button {
+          border-radius: 4px;
+          background-color: grey;
+          border: none;
+          color: #FFFFFF;
+          text-align: center;
+          font-size: 28px;
+          padding: 20px;
+          width: 100px;
+          height: 80px;
+          transition: all 0.5s;
+          cursor: pointer;
+          margin: 5px;
+        }
+        .button span {
+          cursor: pointer;
+          display: inline-block;
+          position: relative;
+          transition: 0.5s;
+        }
+        .button span:after {
+          content: '\00bb';
+          position: absolute;
+          opacity: 0;
+          top: 0;
+          right: -20px;
+          transition: 0.5s;
+        }
+        .button:hover span {
+          padding-right: 25px;
+        }
+        .button:hover span:after {
+          opacity: 1;
+          right: 0;
+        }
+        .but{
+          margin-left: 42%;
+        }
+        .mode{
+          margin-left: 43%;
+          margin-right: 45%;
+          background-color: white;
+        }
+        .topic{
+          margin-left: 41%;
+          margin-right: 55%;
+          background-color: white;
+          width:21%;
+        }
+        </style>
+        </head>
+        <body>
+        <br><br><br>
+        <!-- <div class="container">
+        <div class="row"> -->
+        <div class="topic"><h3>Pick a topic</h3></div>
+
+        <div class="tab">
+          <button class="tablinks" onclick="openCity(event, 'topic1')" id="defaultOpen">Topic 1</button>
+          <button class="tablinks" onclick="openCity(event, 'topic2')">Topic 2</button>
+          <button class="tablinks" onclick="openCity(event, 'topic3')">Topic 3</button>
+        </div>
+
+
+        <div id="topic1" class="tabcontent">
+          <h3>Topic 1</h3>
+          <p>Topic 1 desc </p>
+        </div>
+
+        <div id="topic2" class="tabcontent">
+          <h3>Topic 2</h3>
+          <p>Topic 2 desc</p>
+        </div>
+
+        <div id="topic3" class="tabcontent">
+          <h3>Topic 3</h3>
+          <p>Topic 3 desc</p>
+        </div>
+        <!-- </div> -->
+
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+          <div class="mode"><h3>Modes</h3></div>
+        <div class="container">
+          <div class="rad">
+          <form>
+            <label class="radio-inline">
+              <input type="radio" name="optradio" checked>Easy
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="optradio">Hard
+            </label>
+          </form>
+          </div>
+        </div>
+        <br><br>
+        <div class="but">
+          <button class="button"><span>Go </span></button>
+        </div>
+        <!-- </div> -->
+        <script>
+        function openCity(evt, topicName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(topicName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+        </script>
+
+        </body>
+        </html>
+
+
+      </div>
+    </div>
+
+  </div>
+  <!-- ////////////////////////////////////////////////////////////// -->
+  <div class="container-contact100" style="background-image: url('images/bg-01.jpg');">
+  <div class="wells" style="margin-left:2.5%;">
+    <button type="button" id="readyButton" class="btn btn-primary btn-lg" style="margin-left:29%;">Ready</button>
+    <button type="button" class="btn btn-primary btn-lg" style="margin-left:27%;">Leave</button>
+  </div>
+
+
+  <br>
+
+  <!-- <div class="container" style="margin-left:27%;"> -->
+  <div class="row" style="text-align:center;">
+    <br>
+
+    <div class="column1">
+      <h2>User</h2>
+      <img src="/css/blank1.jpg" class="img-thumbnail" width="175" height="150">
+    </div>
+
+    <div class="column2">
+      <div class="rowx">
+        <!-- <h5>code<h5> -->
+        <br><br><br>
+        <h3><span class="label label-success">code: 5486</span></h3>
+      </div>
+      <div class="rowx">
+        <!-- <h5>topic<h5> -->
+        <br>
+        <h3><span class="label label-warning">topic: pesu</span></h3>
+      </div>
+      <div class="rowx">
+        <!-- <h5>time<h5> -->
+        <br>
+        <h3><span class="label label-danger">timer: 5:10</span></h3>
+      </div>
+    </div>
+
+    <div class="column3">
+      <h2>Opponent</h2>
+      <img src="/css/blank1.jpg" class="img-thumbnail" width="175" height="150">
+      <br><br>
+      <div class="loader"></div>
+    </div>
+
+  </div>
+
+
+  <!-- <div class="panel panel-default">
+  <div class="panel-body">A Basic Panel</div>
+</div> -->
+</div>
+</body>
+</html>

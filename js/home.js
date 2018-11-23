@@ -2,26 +2,37 @@ $(document).ready(function(){
 
 
 	var socket = io();
-	username=prompt("Enter username");
+	username="";
 		
 	socket.emit('clientUsername', username);
 		
 	startQuizKey=0;
 
+
+
 	$("#startQuizButton").click(function(){
-		console.log("Start a new quiz");
-		$("#startKey").css("display","block");
-		$("#generatedKey").css("display","block");
+		username=$("#username").val();
+		if(username.length>0){
+			console.log("Start a new quiz");
+			$("#startKey").css("display","block");
+			$("#generatedKey").css("display","block");
 
-		/* make key*/
-		startQuiz.SendUsernameToServer(username);
+			/* make key*/
+			socket.emit('clientUsername', username);
+			startQuiz.SendUsernameToServer(username);
 
+		}
+		
 		
 	});
 
 	$("#joinQuizButton").click(function(){
-		console.log("Join a new quiz");
-		$("#joinQuizContainer").css("display","block");
+		username=$("#username").val();
+		if(username.length>0){
+			console.log("Join a new quiz");
+			socket.emit('clientUsername', username);
+			$("#joinQuizContainer").css("display","block");
+		}
 		
 	});
 
@@ -35,7 +46,7 @@ $(document).ready(function(){
 		/* send request to server *
 		Validate key 
 		get response*/
-		joinQuiz.SendKeyToServer(key);
+		joinQuiz.SendKeyToServer(key,username);
 
 
 
@@ -45,7 +56,7 @@ $(document).ready(function(){
 var joinQuiz={
 	xhr:new XMLHttpRequest(),
 	key:"",
-	SendKeyToServer:function(key){
+	SendKeyToServer:function(key,username){
 		console.log("sending request key =",key);
 		this.key=key;
 		this.xhr.onreadystatechange=this.GetResponse;
@@ -115,7 +126,7 @@ var player2={
 			var res=this.responseText;
 			console.log("Response : ",res); 
 			console.log("go to sync page");
-			window.location="http://localhost:3000/joinquiz?username="+player2.username+"&key="+player2.key;
+			//window.location="http://localhost:3000/joinquiz?username="+player2.username+"&key="+player2.key;
 			
 		}
 	}

@@ -11,6 +11,7 @@ exports.checkValidKey=function(key,callback){
         	console.log(err);
         	return callback('error');
         }
+        //console.log("checkValidKey result.length ",result.length);
         callback(null, result.length);
 
     });
@@ -24,6 +25,7 @@ function checkValidKey2(key,callback){
     
 	con.query(sql, function(err, rows) {
         if(err) return callback(err);    
+  //      console.log("checkValidKey2 o/p ",rows);
         callback(null,rows); 
     });
 
