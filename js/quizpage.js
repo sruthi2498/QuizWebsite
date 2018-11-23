@@ -24,23 +24,25 @@ var opp_curr_quest=1;
 opponentEnd=0;
 
 correct_answer="-1";
+user_answer="-1";
 
 $(document).ready(function() {
 
 	$('.list-group-item').on('click', function() {
 	    var _this = $(this);
 	    chosen_value=_this.text();
-	    var id=_this[0].id;
+	    user_answer=_this[0].id;
 	    $('.active').removeClass('active');
 	    _this.toggleClass('active');
 	    document.getElementById("next").disabled=false;
-	    if(checkCorrect(id))answer.send(quiz_name,1);
 
 	});
+
+	
 });
 
 function checkCorrect(num){
-	if(correct_answer!="-1" && num==correct_answer)return 1;
+	if(correct_answer!="-1" && num!="-1" && num==correct_answer)return 1;
 	return 0;
 }
 var getQuestion={
@@ -57,22 +59,9 @@ var getQuestion={
 	},
 	GetResponse:function(){
 		if(this.readyState==4 && this.status==200){
+
 			d1=new Date();
 			document.getElementById("next").disabled=true;	
-
-			var res=this.responseText;
-			//console.log(res);
-			var resj=JSON.parse(res);
-		    console.log("resj[index] : ",resj[index]); 
-			
-
-			document.getElementById("ques").innerHTML=resj[index].question;
-			document.getElementById("option1").innerHTML=resj[index].option1;
-			document.getElementById("option2").innerHTML=resj[index].option2;
-			document.getElementById("option3").innerHTML=resj[index].option3;
-			document.getElementById("option4").innerHTML=resj[index].option4;
-			correct_answer=resj[index].correct_option.toString();
-			//timer
 			if(curr_quest>=quiz_len){
 				document.getElementById("next").disabled=true;	
 				console.log("QUIZ DONE");
@@ -89,6 +78,24 @@ var getQuestion={
 					window.location="http://localhost:3000/endDummy?username="+username+"&key="+key;
 				} 
 			}
+			var res=this.responseText;
+			//console.log(res);
+			var resj=JSON.parse(res);
+		    console.log("resj[index] : ",resj[index]); 
+			
+
+			document.getElementById("ques").innerHTML=resj[index].question;
+			document.getElementById("option1").innerHTML=resj[index].option1;
+			document.getElementById("option2").innerHTML=resj[index].option2;
+			document.getElementById("option3").innerHTML=resj[index].option3;
+			document.getElementById("option4").innerHTML=resj[index].option4;
+			
+			;
+			PlotPie(resj[index].num_correct,resj[index].num_attempted-resj[index].num_correct);
+
+			correct_answer=resj[index].correct_option.toString();
+			//timer
+			
 			if(mode=="easy")index=easy_start+index+1;
 			else index=hard_start+index+1;
 			
@@ -206,10 +213,12 @@ function next_ques(){
 	time=Math.abs(d2-d1);
 	d1=0;d2=0;
 
-	getQuestion.sendCurrQuestToServer(quiz_name,curr_quest);
 
 	currTime.send(username,key,quiz_name,curr_quest,time);
-	
+	if(checkCorrect(user_answer))answer.send(quiz_name,1);
+
+	getQuestion.sendCurrQuestToServer(quiz_name,curr_quest);
+
 
 	data={
 		"username":username,
@@ -249,3 +258,34 @@ socket.on('opponentNext', function(data){
     }
 });
 
+
+
+function PlotPie(corr,incorr){
+	var options = {
+	    chart: {
+	        width: 380,
+	        type: 'pie',
+	    },
+	    labels: ['Correct', 'Incorrect'],
+	    series: [corr, incorr],
+	    responsive: [{
+	        breakpoint: 480,
+	        options: {
+	            chart: {
+	                width: 200
+	            },
+	            legend: {
+	                position: 'bottom'
+	            }
+	        }
+	    }]
+	}
+
+	var chart = new ApexCharts(
+	    document.querySelector("#chart"),
+	    options
+	);
+	//console.log("chart : ",chart);
+
+	chart.render();
+}

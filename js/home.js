@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-
+	$("#invalidJoin").css("display","none");
 	var socket = io();
 	username="";
 		
@@ -78,6 +78,7 @@ var joinQuiz={
 				console.log("Invalid key");
 				//Show invaild key message
 				$("#invalidJoin").css("display","block");
+				$("#joinQuizKey").attr("placeholder","Invalid Key.Try Again");
 				// make input blank again
 				$("#joinQuizKey").prop("value","");
 			}
@@ -126,7 +127,7 @@ var player2={
 			var res=this.responseText;
 			console.log("Response : ",res); 
 			console.log("go to sync page");
-			//window.location="http://localhost:3000/joinquiz?username="+player2.username+"&key="+player2.key;
+			window.location="http://localhost:3000/joinquiz?username="+player2.username+"&key="+player2.key;
 			
 		}
 	}

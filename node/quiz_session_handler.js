@@ -103,3 +103,31 @@ function enterPlayer2Details_(player2,quiz_session_id,callback){
     });
 
 }
+
+
+exports.deleteSession=function(quiz_session_id,callback){
+	console.log("deleteing session :",quiz_session_id);
+	deleteSession2(quiz_session_id,function (err, result) {
+
+	if(err){
+		console.log(err);
+		return callback("error");
+	}
+    callback(null, result);
+
+    });
+};
+
+ 
+function deleteSession2(quiz_session_id,callback){
+	
+	quiz_session_id=parseInt(quiz_session_id,10);
+	var sql="DELETE FROM quiz_session WHERE quiz_session_id="+quiz_session_id;
+
+	con.query(sql, function(err, rows) {
+        if(err) return callback(err);
+        callback(null, rows);
+        
+    });
+
+}

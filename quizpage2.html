@@ -1,9 +1,9 @@
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html ng-app="Quiz">
 	<head>
-		<link rel="stylesheet" type="text/css" href="css/quizpage.css">
+		<link rel="stylesheet" type="text/css" href="/css/quizpage.css">
 		<META http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="quiz_main.css">
+		<link rel="stylesheet" type="text/css" href="/css/quiz_main.css">
 		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -29,16 +29,25 @@
   </ul>
 </div>
 <br>
-		
-<div class="panel panel-primary" style="width=60%;">
-  <div  class="panel-heading"><h1 id="ques"></h1> </div>
-  <div class="panel-body">
-    <a href="#" class="list-group-item" id="1"><h3 id="option1"></h3> </a>
-    <a href="#" class="list-group-item"  id="2" ><h3 id="option2"></h3> </a>
-    <a href="#" class="list-group-item" id="3"><h3 id="option3"></h3> </a>
-    <a href="#" class="list-group-item" id="4"><h3 id="option4"></h3> </a>
+
+<div class="row">	
+  <div class="col-sm-8">
+   <div class="panel panel-primary" style="width=60%;">
+    <div  class="panel-heading"><h1 id="ques"></h1> </div>
+      <div class="panel-body">
+        <a href="#" class="list-group-item" id="1"><h3 id="option1"></h3> </a>
+        <a href="#" class="list-group-item"  id="2" ><h3 id="option2"></h3> </a>
+        <a href="#" class="list-group-item" id="3"><h3 id="option3"></h3> </a>
+        <a href="#" class="list-group-item" id="4"><h3 id="option4"></h3> </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4" id="chart">
+    
   </div>
 </div>
+
+
 <div>
   
   <button type="button" id="next" onclick="next_ques()" class="btn btn-primary"> Next >> </button>
