@@ -115,7 +115,7 @@ function storeTimeForQuestion2(username,quiz_name, quiz_session_id,curr_quest_nu
         else if(rows[0].player1==username){
         	player="player1";
 
-        	sql="UPDATE "+quiz_session+" SET player1_total_time=player1_total_time+ "+time +" WHERE quiz_session_id="+quiz_session_id;
+        	sql="UPDATE quiz_session SET player1_total_time=player1_total_time+ "+time +" WHERE quiz_session_id="+quiz_session_id;
 	    	con.query(sql, function(err, rows) {
 		        if(err) return callback(err);
 		        callback(null, rows);
@@ -151,6 +151,27 @@ exports.userCorrect=function(quiz_name,curr_quest_num,callback){
  
 function userCorrect2(quiz_name,curr_quest_num,callback){
 	var sql="UPDATE "+quiz_name+" SET num_correct=num_correct+1 WHERE question_id="+curr_quest_num;
+	con.query(sql, function(err, rows) {
+        if(err) return callback(err);
+        callback(null, rows);
+    });
+}
+
+exports.getWinner=function(quiz_session_id,callback){
+	console.log("get winner");
+	getWinner2(quiz_session_id,function (err, result) {
+		if(err){
+			console.log(err);
+			callback(err);
+		}
+        callback(null, result);
+
+    });
+};
+
+ 
+function getWinner2(quiz_session_id,callback){
+	var sql="SELECT * FROM quiz_session WHERE quiz_session_id="+quiz_session_id; 
 	con.query(sql, function(err, rows) {
         if(err) return callback(err);
         callback(null, rows);
