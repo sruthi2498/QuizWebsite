@@ -5,7 +5,7 @@
 1) Node
 2) nodemon : 
         
-        $ npm install -g nodemon
+        $ npm install -g nodemon)
         
 3) Express for node : 
 
@@ -20,7 +20,8 @@
 Creating a database :
 
     $ node node/db/node_cratedb.js   # change node_cratedb.js with your username and password
-    $ node node/db/node_quiztable.js
+    $ node node/db/node_quiztable_randomweights.js
+    $ node node/db/node_quizsession.js
 
 
 From project root :
