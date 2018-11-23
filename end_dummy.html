@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+img:hover {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+</style>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="/css/end_quiz.css">
@@ -10,8 +16,10 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/endquizdummy.js"></script>
 </head>
-<body>
-  Your opponent is still playing
+<body style="background-color:#F5F5DC">
+<h1 style="display: block;margin-left: auto;margin-right: auto;"> Waiting for your opponent to finish</h1>
+
+<img src="/css/200w.gif" height="40%" width="40%" style="display: block;margin-left: auto;margin-right: auto;border: 5px solid black;" >
 
 </body>
 </html>
