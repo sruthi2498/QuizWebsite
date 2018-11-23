@@ -55,8 +55,6 @@ function gogo()
 	//quizname_url=0;
 	//
 
-	
-
 
 }
 
@@ -75,7 +73,6 @@ var sendQuiz={
 			this.xhr.send();
 		},
 		GetResponse:function(){
-			if(this.readyState==4 && this.status==200){
 				var res=this.responseText;
 				console.log("Response : ",res);
 				if(res=="OK"){
