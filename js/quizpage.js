@@ -8,6 +8,15 @@ var d1;
 var d2;
 var time;
 
+var socket=io();
+
+var url_string=window.location.href;
+var url=new URL(url_string);
+var username=url.searchParams.get("username");
+var key=url.searchParams.get("key");
+
+var opp_curr_quest=1;
+
 var getQuestion={
 	xhr:new XMLHttpRequest(),
 	sendCurrQuestToServer:function(quiz_name,curr_quest,next){ 
@@ -24,7 +33,7 @@ var getQuestion={
 		if(this.readyState==4 && this.status==200){
 			var res=this.responseText;
 
-			console.log("Get Question Response : ",res); 
+		//	console.log("Get Question Response : ",res); 
 			var resj=JSON.parse(res); 
 			document.getElementById("ques").innerHTML=resj[0].question;
 			document.getElementById("option1").innerHTML=resj[0].option1;
@@ -33,8 +42,11 @@ var getQuestion={
 			document.getElementById("option4").innerHTML=resj[0].option4;
 			d1=new Date();
 			//timer
-			if(curr_quest==quiz_len)
+			if(curr_quest>=quiz_len){
 				document.getElementById("next").disabled=true;	
+				console.log("QUIZ DONE");
+				window.location="http://localhost:3000/endquiz?username="+username+"&key="+key;
+			}
 			
 		}
 	}
@@ -55,8 +67,27 @@ var getAllQuestion={
 			var res=this.responseText;
 			console.log("Quiz length Response : ",res);
 			quiz_len=parseInt(res);
+			ul_user=document.getElementById("userPagination");
+			for( i=0;i<quiz_len;i++){
+				a=document.createElement("a");
+				a.href="#";
+				a.textContent=i+1;
+				li=document.createElement("li");
+				if(i==0)li.setAttribute("class","active");
+				li.appendChild(a);
+				ul_user.appendChild(li);
+			}
 			
-	
+			ul_opp=document.getElementById("oppPagination");
+			for( i=0;i<quiz_len;i++){
+				a=document.createElement("a");
+				a.href="#";
+				a.textContent=i+1;
+				li=document.createElement("li");
+				if(i==0)li.setAttribute("class","active");
+				li.appendChild(a);
+				ul_opp.appendChild(li);
+			}
 			
 			
 			
@@ -114,12 +145,45 @@ var answer={
 
 function next_ques(){
 	//end timer
-	//getQuestion.sendCurrQuestToServer(quiz_name,curr_quest,1);
+	if(document.getElementById("userPagination").children.length>0){
+		li=document.getElementById("userPagination").children[curr_quest];
+		li.setAttribute("class","inactive");
+		li=document.getElementById("userPagination").children[curr_quest+1];
+		li.setAttribute("class","active");
+	}
+
+
 	d2=new Date();
 	time=Math.abs(d2-d1);
 	d1=0;d2=0;
+
 	getQuestion.sendCurrQuestToServer(quiz_name,curr_quest);
-	currTime.send("new_guy",18,"quiz_a",1,12);
-	answer.send("quiz_a",1);
+
+	currTime.send(username,key,quiz_name,curr_quest,time);
+	//answer.send(quiz_name,1);
+
+	data={
+		"username":username,
+		"curr_quest":curr_quest,
+		"key":key,
+		"time":time
+	};
+	//console.log("sending data to socket",data);
+	socket.emit("userNext",data);
 	curr_quest=curr_quest+1;
+
+
 }
+
+socket.on('opponentNext', function(data){
+//	console.log("opponent next : ",data);
+    if(data.key==key && data.username!=username){
+    	opp_curr_quest=data.curr_quest;
+        console.log("opponent next : ",data);
+        li=document.getElementById("oppPagination").children[opp_curr_quest];
+		li.setAttribute("class","inactive");
+		li=document.getElementById("oppPagination").children[opp_curr_quest+1];
+		li.setAttribute("class","active");
+
+    }
+});

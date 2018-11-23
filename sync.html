@@ -5,7 +5,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
-
+<script src="/socket.io/socket.io.js"></script>
 <script src="/js/sink.js"></script>
 </head>
 <body>
@@ -22,7 +22,7 @@
     <br>
 
     <div class="column1">
-      <h2>User</h2>
+      <h2 id="user">User</h2>
       <img src="/css/blank1.jpg" class="img-thumbnail" width="175" height="150">
     </div>
 
@@ -30,7 +30,7 @@
       <div class="rowx">
         <!-- <h5>code<h5> -->
         <br><br><br>
-        <h3><span class="label label-success">code: 5486</span></h3>
+        <h3><span class="label label-success" id="code">code: </span></h3>
       </div>
       <div class="rowx">
         <!-- <h5>topic<h5> -->
@@ -45,10 +45,10 @@
     </div>
 
     <div class="column3">
-      <h2>Opponent</h2>
+      <h2 id="opponent">Opponent</h2>
       <img src="/css/blank1.jpg" class="img-thumbnail" width="175" height="150">
       <br><br>
-      <div class="loader"></div>
+      <div class="loader" id="loading" ></div>
     </div>
 
   </div>
