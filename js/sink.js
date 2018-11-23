@@ -35,7 +35,7 @@ $(document).ready(function(){
         function(){
           //  console.log("userReady ",userReady,"oppReady ",oppReady);
             if(userReady==1 && oppReady==1){
-                window.location="http://localhost:3000/quizpage?username="+username+"&key="+key+"&quiz_name="+quiz_name;
+                window.location="http://localhost:3000/quizpage?username="+username+"&key="+key+"&quiz_name="+quiz_name+"&mode="+mode;
             }
           }, 
     2000);

@@ -37,13 +37,10 @@ exports.getAllQuizzes=function(){
 			"name":"quiz_a","desc":"This is quiz_a"
 			},
 			{
-			"name":"quiz_b","desc":"This is quiz_b"
+			"name":"animals","desc":"This is quiz animals"
 			},
 			{
-			"name":"quiz_c","desc":"This is quiz_c"
-			},
-			{
-			"name":"quiz_d","desc":"This is quiz_d"
+			"name":"japan","desc":"This is quiz japan"
 			}
 	];
 };
