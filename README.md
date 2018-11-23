@@ -15,6 +15,7 @@
 
         $ npm install socket.io --save
 
+5) Apex JS : https://apexcharts.com/docs/installation/
 ## Running
 
 Creating a database :
