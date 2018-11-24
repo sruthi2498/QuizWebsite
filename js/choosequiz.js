@@ -1,10 +1,3 @@
-var url_string=window.location.href;
-var url=new URL(url_string);
-username=url.searchParams.get("username");
-key=url.searchParams.get("key");
-
-
-console.log("username ",username," key ",key);
 
 var startQuiz={
 	xhr:new XMLHttpRequest(),
@@ -38,7 +31,7 @@ var startQuiz={
 	}
 }
 
-startQuiz.getAllQuizes();
+
 
 function gogo()
 {
@@ -58,7 +51,6 @@ function gogo()
 
 }
 
-quizname_url="http://localhost:3000/setQuizAndMode";
 var sendQuiz={
 		xhr:new XMLHttpRequest(),
 
@@ -81,3 +73,18 @@ var sendQuiz={
 				
 		}
 }
+
+$(document).ready(function(){
+	var url_string=window.location.href;
+	var url=new URL(url_string);
+	username=url.searchParams.get("username");
+	key=url.searchParams.get("key");
+	quizname_url="http://localhost:3000/setQuizAndMode";
+
+
+	console.log("username ",username," key ",key);
+
+	startQuiz.getAllQuizes();
+	
+});
+

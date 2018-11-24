@@ -60,7 +60,7 @@ app.post('/joinquizkey', function(req, res) {
 
 app.get('/joinquiz', function(req, res){
 
-   res.sendFile('latest_sync.html', { root: path.join(__dirname, '../') });
+   res.sendFile('sync-complete.html', { root: path.join(__dirname, '../') });
 });
 
 app.get('/endquiz', function(req, res){
